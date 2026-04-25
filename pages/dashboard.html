@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <meta name="theme-color" content="#0b0f1a" />
   <title>Live Stock Dashboard &mdash; Jacobs Portfolio | QXO Roll-Up Study</title>
   <meta name="description" content="Real-time stock prices for QXO, XPO, GXO, RXO, and United Rentals — the publicly traded companies in the Brad Jacobs portfolio." />
   <link rel="stylesheet" href="../assets/css/style.css" />
@@ -189,6 +190,55 @@
     }
     @media (max-width: 900px) { .portfolio-context { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 600px) { .portfolio-context { grid-template-columns: 1fr 1fr; } }
+
+    /* ── Card click / lineage ── */
+    .dash-card[data-lineage] { cursor: pointer; }
+    .dash-card-expand {
+      padding: 0.6rem 1.75rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .dash-card[data-lineage]:hover .dash-card-expand { color: var(--amber); }
+    .dash-card.active-lineage {
+      border-color: var(--amber) !important;
+      transform: none !important;
+    }
+    .dash-card.active-lineage .dash-card-expand { color: var(--amber); }
+    .dash-card.active-lineage .expand-arrow { display: inline-block; transform: rotate(180deg); }
+    .expand-arrow { display: inline-block; transition: transform 0.25s; }
+
+    /* lineage row */
+    .lin-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding: 0.9rem 1rem;
+      border-radius: 3px;
+      margin-bottom: 0.5rem;
+    }
+    .lin-row:last-of-type { margin-bottom: 0; }
+    .lin-row.highlight { background: rgba(232,160,32,0.05); border: 1px solid rgba(232,160,32,0.12); }
+    .lin-row.normal { background: rgba(255,255,255,0.02); }
+    .lin-date {
+      width: 72px;
+      flex-shrink: 0;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--amber);
+      letter-spacing: 0.06em;
+      padding-top: 2px;
+    }
+    .lin-title { font-weight: 600; color: var(--linen); font-size: 0.875rem; margin-bottom: 2px; }
+    .lin-body { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+    .lin-source { margin-top: 1rem; font-size: 0.63rem; color: rgba(255,255,255,0.2); font-family: var(--mono); line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -202,7 +252,7 @@
     <div class="section-label">04 &mdash; Markets</div>
     <h1 class="section-title">Jacobs Portfolio <em>Dashboard</em></h1>
     <p style="font-size:1rem; color:var(--muted); max-width:580px; line-height:1.7;">
-      Real-time market prices for the six publicly traded companies in the Brad Jacobs portfolio. Data sourced via Yahoo Finance. Prices update on page load.
+      End-of-day market prices for the publicly traded companies in the Brad Jacobs portfolio. Data via Stooq. Click any card to expand its corporate lineage.
     </p>
   </div>
 </div>
@@ -218,7 +268,7 @@
       <span id="status-text">Loading market data&hellip;</span>
     </div>
     <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
-      <span class="api-note">Data: Yahoo Finance (unofficial public endpoint) &middot; Prices may be delayed 15-20 min</span>
+      <span class="api-note">Data: Finnhub (finnhub.io) &middot; Real-time during market hours, last close after hours</span>
       <button class="refresh-btn" id="refresh-btn" onclick="refreshPrices()">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M10.5 2C9.4 0.8 7.8 0 6 0C2.7 0 0 2.7 0 6s2.7 6 6 6c2.8 0 5.1-1.9 5.8-4.5H10.5C9.8 9.3 8.1 10.5 6 10.5C3.5 10.5 1.5 8.5 1.5 6S3.5 1.5 6 1.5c1.4 0 2.6.6 3.5 1.5L7.5 5H12V0L10.5 2Z" fill="currentColor"/>
@@ -232,7 +282,7 @@
   <div class="dashboard-grid">
 
     <!-- QXO -->
-    <div class="dash-card fade-up" data-delay="0">
+    <div class="dash-card fade-up" data-delay="0" data-lineage="QXO" onclick="toggleLineage('QXO', this)">
       <div class="dash-card-top">
         <div class="dash-ticker-row">
           <span class="dash-ticker">QXO</span>
@@ -252,10 +302,11 @@
       <div class="dash-card-desc">
         Founded June 2024. Targeting $50B in annual revenues through building products distribution roll-up. Acquisitions: Beacon ($11B), Kodiak ($2.25B). TopBuild ($17B) pending.
       </div>
+      <div class="dash-card-expand">Lineage <span class="expand-arrow">&#8595;</span></div>
     </div>
 
     <!-- XPO -->
-    <div class="dash-card fade-up" data-delay="1">
+    <div class="dash-card fade-up" data-delay="1" data-lineage="XPO" onclick="toggleLineage('XPO', this)">
       <div class="dash-card-top">
         <div class="dash-ticker-row">
           <span class="dash-ticker">XPO</span>
@@ -275,10 +326,11 @@
       <div class="dash-card-desc">
         Founded 2011. Built from $175M to $15B+ revenue in four years. 50-bagger for initial investors. #7 Fortune 500 stock of the last decade per Bloomberg.
       </div>
+      <div class="dash-card-expand">Lineage <span class="expand-arrow">&#8595;</span></div>
     </div>
 
     <!-- GXO -->
-    <div class="dash-card fade-up" data-delay="2">
+    <div class="dash-card fade-up" data-delay="2" data-lineage="GXO" onclick="toggleLineage('GXO', this)">
       <div class="dash-card-top">
         <div class="dash-ticker-row">
           <span class="dash-ticker">GXO</span>
@@ -298,10 +350,11 @@
       <div class="dash-card-desc">
         Spun off from XPO in August 2021 ($7B). World's largest pure-play contract logistics provider. 1,000+ facilities, approximately 200 million sq ft globally.
       </div>
+      <div class="dash-card-expand">Lineage <span class="expand-arrow">&#8595;</span></div>
     </div>
 
     <!-- RXO -->
-    <div class="dash-card fade-up" data-delay="3">
+    <div class="dash-card fade-up" data-delay="3" data-lineage="RXO" onclick="toggleLineage('RXO', this)">
       <div class="dash-card-top">
         <div class="dash-ticker-row">
           <span class="dash-ticker">RXO</span>
@@ -321,10 +374,11 @@
       <div class="dash-card-desc">
         Spun off from XPO in November 2022 ($5B). Leading brokered transportation platform in North America. Connects ~10,000 customers with 100,000+ independent carriers.
       </div>
+      <div class="dash-card-expand">Lineage <span class="expand-arrow">&#8595;</span></div>
     </div>
 
     <!-- URI -->
-    <div class="dash-card fade-up" data-delay="4">
+    <div class="dash-card fade-up" data-delay="4" data-lineage="URI" onclick="toggleLineage('URI', this)">
       <div class="dash-card-top">
         <div class="dash-ticker-row">
           <span class="dash-ticker">URI</span>
@@ -344,6 +398,7 @@
       <div class="dash-card-desc">
         Co-founded September 1997. World's largest equipment rental company, built in 13 months. 200-bagger. #6 Fortune 500 stock of the last decade per Bloomberg.
       </div>
+      <div class="dash-card-expand">Lineage <span class="expand-arrow">&#8595;</span></div>
     </div>
 
     <!-- API Note Card -->
@@ -351,7 +406,7 @@
       <div style="padding:2rem; height:100%; display:flex; flex-direction:column; justify-content:center; gap:1rem;">
         <div style="font-family:var(--mono); font-size:0.62rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted);">Data Note</div>
         <div style="font-size:0.82rem; color:rgba(255,255,255,0.4); line-height:1.7;">
-          Prices are fetched from Yahoo Finance's public API endpoint on page load. Data may be delayed 15-20 minutes during market hours. For confirmed real-time data, visit the exchange directly or your brokerage platform.
+          Prices are fetched from Finnhub's free API on page load and on Refresh. Data is real-time during market hours and reflects the last close after hours.
         </div>
         <div style="font-size:0.75rem; color:rgba(255,255,255,0.2); font-family:var(--mono); line-height:1.6;">
           United Waste Systems (sold 1997) and the Amerex/Hamilton entities are private or dissolved and are not represented here.
@@ -362,48 +417,12 @@
 
   </div><!-- end dashboard-grid -->
 
-  <div class="s-8"></div>
-
-  <!-- CONTEXT SECTION -->
-  <div class="section-label">Portfolio Context</div>
-  <h2 class="section-title" style="font-size:1.5rem;">The Public <em>Company Lineage</em></h2>
-  <div class="s-3"></div>
-
-  <div class="chart-container fade-up">
-    <div class="chart-title">XPO Corporate Lineage &mdash; Companies Created from the XPO Platform</div>
-    <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
-      <div style="display:flex; align-items:center; gap:1.5rem; padding:1rem; background:rgba(232,160,32,0.04); border-radius:3px; border:1px solid rgba(232,160,32,0.1);">
-        <div style="width:60px; font-family:var(--mono); font-size:0.7rem; color:var(--amber);">2011</div>
-        <div style="flex:1;">
-          <div style="font-weight:600; color:var(--linen); font-size:0.88rem;">XPO Logistics founded</div>
-          <div style="font-size:0.78rem; color:var(--muted);">$150M Jacobs investment in Express-1. Revenue $175M at start.</div>
-        </div>
-      </div>
-      <div style="display:flex; align-items:center; gap:1.5rem; padding:1rem; background:rgba(255,255,255,0.02); border-radius:3px;">
-        <div style="width:60px; font-family:var(--mono); font-size:0.7rem; color:var(--amber);">2015&ndash;16</div>
-        <div style="flex:1;">
-          <div style="font-weight:600; color:var(--linen); font-size:0.88rem;">Major acquisitions: Con-way, Norbert Dentressangle</div>
-          <div style="font-size:0.78rem; color:var(--muted);">$3.5B and $3.6B respectively. Revenue reaches $15B+ by 2016 &mdash; four years ahead of the five-year target.</div>
-        </div>
-      </div>
-      <div style="display:flex; align-items:center; gap:1.5rem; padding:1rem; background:rgba(255,255,255,0.02); border-radius:3px;">
-        <div style="width:60px; font-family:var(--mono); font-size:0.7rem; color:var(--amber);">Aug 2021</div>
-        <div style="flex:1;">
-          <div style="font-weight:600; color:var(--linen); font-size:0.88rem;">GXO Logistics spun off ($7B)</div>
-          <div style="font-size:0.78rem; color:var(--muted);">World's largest pure-play contract logistics company created as independent NYSE-listed entity.</div>
-        </div>
-      </div>
-      <div style="display:flex; align-items:center; gap:1.5rem; padding:1rem; background:rgba(255,255,255,0.02); border-radius:3px;">
-        <div style="width:60px; font-family:var(--mono); font-size:0.7rem; color:var(--amber);">Nov 2022</div>
-        <div style="flex:1;">
-          <div style="font-weight:600; color:var(--linen); font-size:0.88rem;">RXO spun off ($5B)</div>
-          <div style="font-size:0.78rem; color:var(--muted);">North American freight brokerage platform created as independent NYSE-listed entity. Two new public companies in ~15 months.</div>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:1rem; font-size:0.65rem; color:var(--muted); font-family:var(--mono);">
-      Sources: XPO board biography (investors.xpo.com); Jacobs Private Equity (jpe.com); SEC Form 8-K, XPO Logistics, December 2011 (EDGAR 0001166003).
-    </div>
+  <!-- LINEAGE PANEL — rendered here on card click -->
+  <div id="lineage-panel" style="display:none; margin-top:2.5rem;">
+    <div class="section-label" id="lineage-label">Corporate Lineage</div>
+    <h2 class="section-title" style="font-size:1.4rem; margin-bottom:1.5rem;" id="lineage-title"></h2>
+    <div class="chart-container" id="lineage-content"></div>
+    <div class="s-4"></div>
   </div>
 
 </div>
@@ -414,20 +433,146 @@
 <script src="../assets/js/nav.js"></script>
 <script src="../assets/js/main.js"></script>
 <script>
-// Enhanced dashboard-specific stock loading
+/* ── Lineage Data ──────────────────────────────────────────
+   Sources:
+   - QXO IR: investors.qxo.com
+   - XPO IR: investors.xpo.com
+   - Jacobs Private Equity: jpe.com
+   - SEC Form 8-K, XPO Logistics, Dec 2011 (EDGAR 0001166003)
+   - Wikipedia (Brad Jacobs); SEC EDGAR QXO (CIK 0001236275)
+   ─────────────────────────────────────────────────────── */
+const LINEAGE = {
+  QXO: {
+    title: 'QXO, Inc. &mdash; Corporate Lineage',
+    rows: [
+      { date: 'Dec 2023', title: 'Brad Jacobs announces intent to enter building products distribution', body: 'No entity formed yet. Jacobs identifies building products distribution as a target industry: ~$800B TAM, ~20,000 operators, low technology penetration.', highlight: false },
+      { date: 'Jun 2024', title: 'QXO, Inc. formed via SilverSun Technologies shell (Nasdaq)', body: 'SilverSun Technologies, Inc. acquired and renamed QXO, Inc. Initial equity: $900M from Jacobs Private Equity + $100M from Sequoia Heritage and co-investors. Total: $1B.', highlight: true },
+      { date: 'Jun 13, 2024', title: '$3.5B private placement announced', body: '340.9M shares + 42M pre-funded warrants at $9.14. Closed July 19, 2024. Goldman Sachs and Morgan Stanley as joint lead placement agents.', highlight: false },
+      { date: 'Jul 22, 2024', title: '$620M additional private placement', body: '67M+ shares at $9.14. Includes $150M from Affinity Partners (Jared Kushner). Closes July 25, 2024. Total equity reaches ~$5B. Zero debt.', highlight: false },
+      { date: 'Jan 7, 2025', title: 'QXO transfers to NYSE; Opening Bell Jan 17, 2025', body: 'Ticker QXO retained. Stock began Nasdaq trading at $16.03 on Jan 7, 2025.', highlight: false },
+      { date: 'Jan 27, 2025', title: 'Tender offer commenced for Beacon Roofing Supply at $124.25/share', body: 'Initial all-cash offer for Beacon, the largest publicly traded U.S. roofing and waterproofing distributor. ~$11B total enterprise value.', highlight: false },
+      { date: 'Mar 20, 2025', title: 'Agreement and Plan of Merger signed with Beacon (Queen MergerCo, Inc.)', body: 'Formal merger agreement executed. Offer price increased to $124.35/share on March 31, 2025.', highlight: false },
+      { date: 'Apr 29, 2025', title: 'Beacon acquisition closes. Beacon renamed QXO Building Products, Inc.', body: '~600 branches across U.S. and Canada. $9.8B 2024 revenue. QXO becomes largest publicly traded roofing and waterproofing distributor in the U.S.', highlight: true },
+      { date: 'Jun 2025', title: '$2B registered public equity offering', body: 'Goldman Sachs, Morgan Stanley, and Wells Fargo as joint bookrunners. Proceeds for general corporate purposes including acquisitions.', highlight: false },
+      { date: 'Jan 2026', title: '$3B Series C convertible preferred (Apollo-led) + $749.4M equity offering', body: 'Apollo-led preferred investment designated for large acquisitions. Temasek among co-investors. Deadline: at least one qualifying acquisition by July 15, 2026.', highlight: false },
+      { date: 'Feb 11, 2026', title: 'Definitive agreement to acquire Kodiak Building Partners for $2.25B', body: '$2.0B cash + 13.2M QXO shares. Seller: Court Square Capital Partners. 110 locations, 26 states, ~$2.4B 2025 revenue.', highlight: false },
+      { date: 'Apr 1, 2026', title: 'Kodiak acquisition closes', body: 'Steve Swinney (Kodiak co-founder) leads new QXO lumber and building materials (LBM) division. QXO addressable market expands to $200B+.', highlight: true },
+      { date: 'Apr 21, 2026', title: 'Definitive agreement to acquire TopBuild Corp. (NYSE: BLD) for ~$17B', body: '$505/share cash or 20.2 QXO shares; ~45% cash / 55% stock. 14.9x pre-synergy EBITDA; 11.8x post-synergy. $300M targeted synergies by 2030. Pending shareholder vote and regulatory clearance.', highlight: true },
+    ],
+    source: 'Sources: QXO IR (investors.qxo.com); SEC EDGAR QXO (CIK 0001236275) &mdash; Forms 8-K, 424B5, 10-K.'
+  },
+  XPO: {
+    title: 'XPO, Inc. &mdash; Corporate Lineage',
+    rows: [
+      { date: '2011', title: 'Brad Jacobs invests ~$150M in Express-1 Expedited Solutions', body: 'Renamed XPO Logistics. Revenue $175M at entry. Jacobs becomes Chairman and CEO, acquiring ~71% ownership. Jacobs announces target to grow revenue to $5B within five years through M&A.', highlight: true },
+      { date: '2012&ndash;14', title: 'Early tuck-in acquisitions establish freight brokerage platform', body: 'Seven of the first ten acquisitions represent under $50M in annual revenue each. Platform economics established before large deals.', highlight: false },
+      { date: '2015', title: 'Norbert Dentressangle acquired (~$3.6B)', body: 'French logistics group. Transforms XPO into a major European logistics operator. First transformational acquisition.', highlight: false },
+      { date: '2015', title: 'Con-way Inc. acquired ($3.5B)', body: 'Large U.S. less-than-truckload carrier. Dramatically expands North American footprint. Revenue reaches $15B+ by 2016 &mdash; four years ahead of Jacobs' five-year target.', highlight: false },
+      { date: 'Aug 2021', title: 'GXO Logistics spun off ($7B)', body: 'Contract logistics segment separated as independent NYSE-listed company. World's largest pure-play contract logistics provider. Jacobs becomes non-executive chairman of GXO.', highlight: true },
+      { date: 'Aug 2022', title: 'Jacobs steps aside as XPO CEO; remains Executive Chairman', body: 'Management transition. XPO refocuses on LTL freight as core business.', highlight: false },
+      { date: 'Nov 2022', title: 'RXO, Inc. spun off ($5B)', body: 'Freight brokerage platform separated as independent NYSE-listed company. Two public spin-offs from XPO in approximately 15 months. Jacobs becomes non-executive chairman of RXO.', highlight: true },
+      { date: 'By end 2024', title: 'XPO stock becomes a 50-bagger for initial 2011 investors', body: 'Ranked #7 best-performing Fortune 500 stock of the prior decade per Bloomberg. United Rentals ranked #6 in the same list.', highlight: false },
+    ],
+    source: 'Sources: XPO IR board biography (investors.xpo.com); Jacobs Private Equity (jpe.com); SEC Form 8-K, XPO Logistics, Dec 2011 (EDGAR 0001166003).'
+  },
+  GXO: {
+    title: 'GXO Logistics, Inc. &mdash; Corporate Lineage',
+    rows: [
+      { date: '2011&ndash;21', title: 'Contract logistics division built within XPO', body: 'XPO's logistics business expanded through acquisition of Norbert Dentressangle (2015) and organic growth into the world's largest contract logistics operation by the time of spin-off.', highlight: false },
+      { date: 'Aug 2, 2021', title: 'GXO Logistics spun off from XPO and listed on NYSE', body: 'Spin-off valued at approximately $7 billion. GXO immediately becomes the world's largest pure-play contract logistics provider. Brad Jacobs becomes non-executive chairman. Malcolm Wilson serves as CEO.', highlight: true },
+      { date: '2021&ndash;24', title: 'Global expansion through acquisitions and organic growth', body: 'GXO pursues bolt-on acquisitions in Europe and North America. Capabilities in automation, robotics, and e-commerce fulfillment differentiate the platform from traditional 3PLs.', highlight: false },
+      { date: 'Present', title: '1,000+ facilities; ~200 million sq ft globally', body: 'Serves customers including blue-chip retailers, e-commerce operators, and manufacturers across 27+ countries. Automation and technology are core to the service proposition.', highlight: false },
+    ],
+    source: 'Sources: XPO IR (investors.xpo.com); Jacobs Private Equity (jpe.com); GXO IR (investors.gxo.com).'
+  },
+  RXO: {
+    title: 'RXO, Inc. &mdash; Corporate Lineage',
+    rows: [
+      { date: '2011&ndash;22', title: 'Freight brokerage operations built within XPO', body: 'XPO's truck brokerage division grew through the acquisitions of Freight-Trac, 3PD, and organic growth into one of the largest brokered freight platforms in North America.', highlight: false },
+      { date: 'Nov 1, 2022', title: 'RXO, Inc. spun off from XPO and listed on NYSE', body: 'Spin-off valued at approximately $5 billion. Second XPO spin-off in approximately 15 months (following GXO in August 2021). Jacobs becomes non-executive chairman. Drew Wilkerson serves as CEO.', highlight: true },
+      { date: '2022&ndash;24', title: 'Technology investment and platform development', body: 'RXO invests in proprietary digital brokerage ecosystem connecting ~10,000 customers with 100,000+ independent carriers. Capacity management tools and digital load matching differentiate from legacy brokers.', highlight: false },
+      { date: 'Present', title: 'Leading brokered transportation platform in North America', body: 'Provides truck brokerage, last mile logistics, and managed transportation. Asset-light model with high operating leverage to freight market volumes.', highlight: false },
+    ],
+    source: 'Sources: XPO IR (investors.xpo.com); Jacobs Private Equity (jpe.com); RXO IR (investors.rxo.com).'
+  },
+  URI: {
+    title: 'United Rentals, Inc. &mdash; Corporate Lineage',
+    rows: [
+      { date: 'Sep 1997', title: 'Brad Jacobs co-founds United Rentals in Greenwich, CT', body: 'Applies the same roll-up model used at United Waste Systems to the equipment rental industry. Strategy: acquire fragmented regional dealers with overlapping geographies, layer shared services, drive route density.', highlight: true },
+      { date: 'Dec 1997', title: 'IPO on the New York Stock Exchange', body: 'United Rentals goes public just three months after founding. Jacobs builds the company into the world's largest equipment rental company in 13 months from founding &mdash; at peak, $3.9B in revenue and ~750 locations.', highlight: false },
+      { date: '1997&ndash;07', title: 'Rapid acquisition phase; stock outperforms S&P 500 by 2.2x (1997&ndash;2007)', body: 'Two-thirds of locations built through acquisitions; remaining 250 were cold starts. URI becomes #1 globally in equipment rental during Jacobs' tenure as Chairman (10 years) and CEO (6 years).', highlight: false },
+      { date: '2007', title: 'Jacobs steps back from active management', body: 'Served as chairman for 10 years and CEO for 6. Transitions to other ventures. United Rentals continues as an independent public company.', highlight: false },
+      { date: 'Last decade', title: 'United Rentals: #6 Fortune 500 stock of the past decade; 200-bagger', body: 'Per Bloomberg market data cited in Jacobs Private Equity official biography. United Rentals is now one of the largest companies in the Fortune 500 by market capitalization.', highlight: true },
+    ],
+    source: 'Sources: XPO IR board biography (investors.xpo.com); Jacobs Private Equity (jpe.com); SEC Form 8-K, XPO Logistics, Dec 2011 (EDGAR 0001166003).'
+  }
+};
+
+let activeLineage = null;
+
+function toggleLineage(key, cardEl) {
+  const panel = document.getElementById('lineage-panel');
+  const title = document.getElementById('lineage-title');
+  const content = document.getElementById('lineage-content');
+
+  // Deactivate all cards
+  document.querySelectorAll('.dash-card[data-lineage]').forEach(c => c.classList.remove('active-lineage'));
+
+  // If clicking the already-open one, close it
+  if (activeLineage === key) {
+    panel.style.display = 'none';
+    activeLineage = null;
+    return;
+  }
+
+  // Build content
+  const data = LINEAGE[key];
+  if (!data) return;
+
+  title.innerHTML = data.title;
+
+  let html = '<div style="display:flex; flex-direction:column; gap:0;">';
+  data.rows.forEach(row => {
+    const cls = row.highlight ? 'lin-row highlight' : 'lin-row normal';
+    html += `<div class="${cls}">
+      <div class="lin-date">${row.date}</div>
+      <div>
+        <div class="lin-title">${row.title}</div>
+        <div class="lin-body">${row.body}</div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  html += `<div class="lin-source">${data.source}</div>`;
+
+  content.innerHTML = html;
+  panel.style.display = 'block';
+  cardEl.classList.add('active-lineage');
+  activeLineage = key;
+
+  // Smooth scroll to panel
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+
+/* ── Stock loading ───────────────────────────────────────── */
+var FINNHUB_KEY = 'd7mjle9r01qngrvof0vgd7mjle9r01qngrvof100';
+
 async function fetchStockPrice(ticker) {
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=2d`;
+  var url = 'https://finnhub.io/api/v1/quote?symbol=' + ticker + '&token=' + FINNHUB_KEY;
   try {
-    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const meta = data?.chart?.result?.[0]?.meta;
-    if (!meta) throw new Error('No meta');
-    const price = meta.regularMarketPrice;
-    const prev  = meta.chartPreviousClose || meta.previousClose;
-    const change = price - prev;
-    const pct = (change / prev) * 100;
-    return { price, change, pct };
+    var res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var data = await res.json();
+    var price = data.c;
+    var change = data.d;
+    var pct = data.dp;
+    if (!price || price <= 0) throw new Error('Invalid price');
+    return {
+      price:  price,
+      change: change,
+      pct:    pct,
+      date:   new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
   } catch {
     return null;
   }
@@ -439,7 +584,7 @@ async function refreshPrices() {
   const statusText = document.getElementById('status-text');
   btn.classList.add('spinning');
   dot.classList.add('loading');
-  statusText.textContent = 'Fetching market data\u2026';
+  statusText.textContent = 'Fetching market data…';
 
   const cards = document.querySelectorAll('.dash-card-price[data-ticker]');
   const promises = Array.from(cards).map(async priceDiv => {
@@ -449,7 +594,7 @@ async function refreshPrices() {
     const tsEl = priceDiv.closest('.dash-card')?.querySelector('.dash-ts');
 
     priceEl.className = 'dash-price dash-loading';
-    priceEl.textContent = 'Loading\u2026';
+    priceEl.textContent = 'Loading…';
 
     const d = await fetchStockPrice(ticker);
     if (!d) {
@@ -466,14 +611,14 @@ async function refreshPrices() {
       changeEl.className = `dash-change ${d.change >= 0 ? 'up' : 'down'}`;
     }
     if (tsEl) {
-      tsEl.textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+      tsEl.textContent = data.date + " 00b7 Finnhub"';
     }
   });
 
   await Promise.all(promises);
   btn.classList.remove('spinning');
   dot.classList.remove('loading');
-  statusText.textContent = `Prices loaded \u00b7 ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' })}`;
+  statusText.textContent = `Prices loaded · ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' })}`;
 }
 
 document.addEventListener('DOMContentLoaded', refreshPrices);
