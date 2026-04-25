@@ -1,6 +1,6 @@
 /* ============================================================
    QXO ROLL-UP STUDY | Shared JS
-   Stock data via Stooq public CSV endpoint (no API key required)
+   Stock data via Yahoo Finance (unofficial public endpoint)
    ============================================================ */
 
 'use strict';
@@ -45,34 +45,29 @@
   bars.forEach(b => io.observe(b));
 })();
 
-/* ── Stock Price Fetcher (Stooq) ─────────────────────────── */
+/* ── Stock Price Fetcher ─────────────────────────────────── */
 /*
-  Stooq public CSV endpoint — no API key required, CORS-accessible.
-  Format: Symbol.US for NYSE/Nasdaq listings (e.g. QXO.US, XPO.US)
-  Endpoint: https://stooq.com/q/l/?s={SYMBOL}&f=sd2t2ohlcv&h&e=csv
-  Returns CSV: Symbol,Date,Time,Open,High,Low,Close,Volume
-  One row per request. Change = Close - Open (same-day proxy).
-  Date format returned: YYYY-MM-DD
+  Uses Yahoo Finance v8 endpoint (CORS-accessible, no API key).
+  Note: This is an unofficial/undocumented endpoint. If it stops
+  working, replace with Alpha Vantage or Finnhub (both free tier).
+  Endpoint: https://query1.finance.yahoo.com/v8/finance/chart/{TICKER}
 */
 async function fetchStockPrice(ticker) {
-  const symbol = ticker + '.US';
-  const url = `https://stooq.com/q/l/?s=${symbol}&f=sd2t2ohlcv&h&e=csv`;
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=2d`;
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: { 'Accept': 'application/json' }
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    // CSV: header row + data row
-    const lines = text.trim().split('\n');
-    if (lines.length < 2) throw new Error('No data row');
-    const values = lines[1].split(',');
-    // Columns: Symbol, Date, Time, Open, High, Low, Close, Volume
-    const open  = parseFloat(values[3]);
-    const close = parseFloat(values[6]);
-    if (isNaN(close) || close <= 0) throw new Error('Invalid price');
-    const change = close - open;
-    const pct    = (change / open) * 100;
-    const date   = values[1]; // YYYY-MM-DD
-    return { price: close, change, pct, date };
+    const data = await res.json();
+    const result = data?.chart?.result?.[0];
+    if (!result) throw new Error('No result');
+    const meta = result.meta;
+    const price = meta.regularMarketPrice;
+    const prev  = meta.chartPreviousClose || meta.previousClose;
+    const change = price - prev;
+    const pct    = (change / prev) * 100;
+    return { price, change, pct, currency: meta.currency || 'USD' };
   } catch (err) {
     return null;
   }
@@ -103,7 +98,7 @@ async function populateStockCards() {
       changeEl.className = `stock-change ${data.change >= 0 ? 'up' : 'down'}`;
     }
     if (tsEl) {
-      tsEl.textContent = `${data.date} · Stooq`;
+      tsEl.textContent = `As of ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' })} · Yahoo Finance`;
     }
   });
   await Promise.all(promises);
