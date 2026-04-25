@@ -1,6 +1,6 @@
 /* ============================================================
    QXO ROLL-UP STUDY | Shared JS
-   Stock data via Stooq public CSV endpoint (no API key required)
+   Stock data via Finnhub (free tier, no credit card required)
    ============================================================ */
 
 'use strict';
@@ -8,7 +8,6 @@
 /* ── Scroll Fade-Up Animations ──────────────────────────── */
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* Small delay ensures browser has painted before we observe */
   setTimeout(function () {
     const els = document.querySelectorAll('.fade-up');
     if (!els.length) return;
@@ -45,33 +44,33 @@ document.addEventListener('DOMContentLoaded', function () {
     bars.forEach(function (b) { io.observe(b); });
   }, 100);
 
-  /* ── Stock Price Fetcher (Stooq) ─────────────────────── */
+  /* ── Stock Price Fetcher ─────────────────────────────── */
   populateStockCards();
 });
 
-/* ── Stooq CSV Fetcher ───────────────────────────────────── */
+/* ── Finnhub Fetcher ─────────────────────────────────────── */
 /*
-  Endpoint: https://stooq.com/q/l/?s={SYMBOL}.US&f=sd2t2ohlcv&h&e=csv
-  Returns:  Symbol, Date, Time, Open, High, Low, Close, Volume
-  No API key required. Change = Close minus Open (same-session proxy).
+  Finnhub free tier — https://finnhub.io
+  Endpoint: https://finnhub.io/api/v1/quote?symbol={TICKER}&token={KEY}
+  Returns: c (current price), o (open), pc (previous close), d (change), dp (change %)
 */
+var FINNHUB_KEY = 'd7mjle9r01qngrvof0vgd7mjle9r01qngrvof100';
+
 async function fetchStockPrice(ticker) {
-  const url = 'https://stooq.com/q/l/?s=' + ticker + '.US&f=sd2t2ohlcv&h&e=csv';
+  var url = 'https://finnhub.io/api/v1/quote?symbol=' + ticker + '&token=' + FINNHUB_KEY;
   try {
-    const res = await fetch(url);
+    var res = await fetch(url);
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    const lines = text.trim().split('\n');
-    if (lines.length < 2) throw new Error('No data row');
-    const values = lines[1].split(',');
-    const open  = parseFloat(values[3]);
-    const close = parseFloat(values[6]);
-    if (isNaN(close) || close <= 0) throw new Error('Invalid price');
+    var data = await res.json();
+    var price = data.c;
+    var change = data.d;
+    var pct = data.dp;
+    if (!price || price <= 0) throw new Error('Invalid price');
     return {
-      price:  close,
-      change: close - open,
-      pct:    ((close - open) / open) * 100,
-      date:   values[1]
+      price:  price,
+      change: change,
+      pct:    pct,
+      date:   new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
     };
   } catch (err) {
     return null;
@@ -79,17 +78,17 @@ async function fetchStockPrice(ticker) {
 }
 
 async function populateStockCards() {
-  const cards = document.querySelectorAll('[data-ticker]');
+  var cards = document.querySelectorAll('[data-ticker]');
   if (!cards.length) return;
 
   await Promise.all(Array.from(cards).map(async function (card) {
-    const ticker  = card.dataset.ticker;
-    const priceEl = card.querySelector('.stock-price');
-    const changeEl = card.querySelector('.stock-change');
-    const tsEl    = card.querySelector('.stock-ts');
+    var ticker  = card.dataset.ticker;
+    var priceEl = card.querySelector('.stock-price');
+    var changeEl = card.querySelector('.stock-change');
+    var tsEl    = card.querySelector('.stock-ts');
     if (!priceEl) return;
 
-    const data = await fetchStockPrice(ticker);
+    var data = await fetchStockPrice(ticker);
     if (!data) {
       priceEl.textContent = '--';
       if (changeEl) { changeEl.textContent = 'data unavailable'; changeEl.className = 'stock-change'; }
@@ -97,10 +96,10 @@ async function populateStockCards() {
     }
     priceEl.textContent = '$' + data.price.toFixed(2);
     if (changeEl) {
-      const s = data.change >= 0 ? '+' : '';
+      var s = data.change >= 0 ? '+' : '';
       changeEl.textContent = s + data.change.toFixed(2) + ' (' + s + data.pct.toFixed(2) + '%)';
       changeEl.className = 'stock-change ' + (data.change >= 0 ? 'up' : 'down');
     }
-    if (tsEl) tsEl.textContent = data.date + ' \u00b7 Stooq';
+    if (tsEl) tsEl.textContent = data.date + ' \u00b7 Finnhub';
   }));
 }
