@@ -953,17 +953,12 @@ footer {
 }
 
 /* ── Animations ─────────────────────────────────────────── */
-/* Visible by default — JS adds .js-loaded to <html> before animating */
 .fade-up {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
-}
-html.js-loaded .fade-up {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
-html.js-loaded .fade-up.visible {
+.fade-up.visible {
   opacity: 1;
   transform: translateY(0);
 }
