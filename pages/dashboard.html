@@ -557,20 +557,25 @@ function toggleLineage(key, cardEl) {
 /* ── Stock loading ───────────────────────────────────────── */
 var FINNHUB_KEY = 'd7mjle9r01qngrvof0vgd7mjle9r01qngrvof100';
 
+function fetchWithTimeout(url, ms) {
+  var controller = new AbortController();
+  var timer = setTimeout(function () { controller.abort(); }, ms);
+  return fetch(url, { signal: controller.signal })
+    .then(function (r) { clearTimeout(timer); return r; })
+    .catch(function (e) { clearTimeout(timer); throw e; });
+}
+
 async function fetchStockPrice(ticker) {
   var url = 'https://finnhub.io/api/v1/quote?symbol=' + ticker + '&token=' + FINNHUB_KEY;
   try {
-    var res = await fetch(url);
+    var res = await fetchWithTimeout(url, 8000);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     var data = await res.json();
-    var price = data.c;
-    var change = data.d;
-    var pct = data.dp;
-    if (!price || price <= 0) throw new Error('Invalid price');
+    if (!data.c || data.c <= 0) throw new Error('Invalid price');
     return {
-      price:  price,
-      change: change,
-      pct:    pct,
+      price:  data.c,
+      change: data.d,
+      pct:    data.dp,
       date:   new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
     };
   } catch {
