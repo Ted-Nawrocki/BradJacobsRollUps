@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QXO Roll-Up Study | The Brad Jacobs Playbook</title>
+  <meta name="description" content="An analyst-grade examination of Brad Jacobs' roll-up acquisition strategy using QXO as a live case study. Sourced from SEC filings and official investor relations materials." />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .overview-lede {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--linen);
+      line-height: 1.65;
+      font-weight: 400;
+      margin-bottom: 2rem;
+    }
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .kpi-cell {
+      padding: 2rem;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+    }
+    .kpi-cell:last-child { border-right: none; }
+    .kpi-cell::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--amber);
+      opacity: 0.5;
+    }
+    .nav-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .nav-feature {
+      background: var(--ink);
+      padding: 2.5rem 2rem;
+      transition: background 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .nav-feature:hover { background: var(--ink-mid); }
+    .nav-feature-num {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+    .nav-feature-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--linen);
+      margin-bottom: 0.75rem;
+    }
+    .nav-feature-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .nav-feature-arrow {
+      display: inline-block;
+      color: var(--amber);
+      margin-top: 1.25rem;
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+    .nav-feature:hover .nav-feature-arrow { transform: translateX(4px); }
+    @media (max-width: 900px) {
+      .kpi-strip { grid-template-columns: 1fr 1fr; }
+      .kpi-cell:nth-child(2) { border-right: none; }
+      .kpi-cell:nth-child(1), .kpi-cell:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .nav-feature-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .kpi-strip { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="nav-target"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Capital Markets Case Study</div>
+    <h1 class="hero-title">
+      The Art of the<br><em>Roll-Up</em>
+    </h1>
+    <p class="hero-subtitle">
+      How Brad Jacobs builds billion-dollar enterprises by acquiring fragmented industries, deploying capital at scale, and engineering compounding shareholder value. QXO as the live case.
+    </p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-n">~500</div>
+        <div class="hero-stat-l">M&amp;A Transactions</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">8</div>
+        <div class="hero-stat-l">Companies Founded</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">$50B</div>
+        <div class="hero-stat-l">QXO Revenue Target</div>
+      </div>
+      <div>
+        <div class="hero-stat-n">$30B+</div>
+        <div class="hero-stat-l">QXO Deals Announced</div>
+      </div>
+    </div>
+    <div class="hero-nav-pills">
+      <a href="pages/jacobs.html" class="pill pill-primary">Brad Jacobs Profile</a>
+      <a href="pages/rollup.html" class="pill">The Playbook</a>
+      <a href="pages/timeline.html" class="pill">QXO Timeline</a>
+      <a href="pages/dashboard.html" class="pill">Live Dashboard</a>
+    </div>
+  </div>
+</section>
+
+<!-- KPI STRIP -->
+<div style="background: var(--ink-mid); border-bottom: 1px solid rgba(255,255,255,0.05);">
+  <div style="max-width: var(--max-w); margin: 0 auto; padding: 0 2rem;">
+    <div class="kpi-strip">
+      <div class="kpi-cell fade-up" data-delay="0">
+        <div class="stat-num">$11B</div>
+        <div class="stat-label">Beacon Roofing Supply</div>
+        <div class="stat-note">All-cash tender offer · Closed Apr 2025</div>
+      </div>
+      <div class="kpi-cell fade-up" data-delay="1">
+        <div class="stat-num">$2.25B</div>
+        <div class="stat-label">Kodiak Building Partners</div>
+        <div class="stat-note">Cash &amp; stock · Closed Apr 2026</div>
+      </div>
+      <div class="kpi-cell fade-up" data-delay="2">
+        <div class="stat-num">$17B</div>
+        <div class="stat-label">TopBuild Corp</div>
+        <div class="stat-note">Cash &amp; stock · Announced Apr 2026</div>
+      </div>
+      <div class="kpi-cell fade-up" data-delay="3">
+        <div class="stat-num">$800B</div>
+        <div class="stat-label">Total Addressable Market</div>
+        <div class="stat-note">Building products distribution, N. America</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW TEXT -->
+<div class="s-8"></div>
+<div class="page-wrap fade-up">
+  <div class="section-label">The Thesis</div>
+  <h2 class="section-title">Same Playbook.<br><em>Different Industry.</em></h2>
+</div>
+
+<div class="s-4"></div>
+<div class="page-wrap">
+  <div class="grid-2" style="gap: 5rem; align-items: start;">
+    <div class="fade-up prose">
+      <p class="overview-lede">
+        Brad Jacobs has executed the same fundamental strategy across four decades and four industries: identify a large, fragmented market with thin technology penetration, raise institutional capital at scale before acquiring a single company, then execute rapid acquisitions to build a dominant national platform.
+      </p>
+      <p>
+        The pattern is deliberate and replicable. United Waste Systems consolidated rural solid waste collection. United Rentals consolidated equipment rental dealerships. XPO Logistics consolidated freight brokerage and contract logistics. Each time, Jacobs entered a market where the largest competitor held a low single-digit market share, deployed M&amp;A to build scale advantages unavailable to subscale operators, and created shareholder value through the arithmetic of multiple expansion and operational leverage.
+      </p>
+      <p>
+        QXO, launched in June 2024, targets building products distribution in North America. The industry generates approximately $800 billion in annual revenue, is served by roughly 20,000 independent distributors across the U.S. and Europe, and has historically resisted consolidation. That fragmentation is not a flaw in Jacobs' thesis. It is the thesis.
+      </p>
+      <p>
+        Within eleven months of Jacobs taking operational control, QXO had committed over $13 billion to acquisitions. Within twenty-three months, announced deals exceeded $30 billion in aggregate consideration. This site documents the mechanics, the deal terms, and the analytical framework behind that trajectory.
+      </p>
+    </div>
+    <div>
+      <div class="chart-container fade-up" data-delay="1">
+        <div class="chart-title">QXO Acquisition Volume &mdash; Announced Deal Value</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">Beacon (Apr 2025)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%; animation-delay:0.1s"></div></div>
+            <div class="bar-val">$11.0B</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">TopBuild (Apr 2026)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%; animation-delay:0.2s"></div></div>
+            <div class="bar-val">$17.0B</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Kodiak (Feb 2026)</div>
+            <div class="bar-track"><div class="bar-fill" style="width:20.5%; animation-delay:0.3s"></div></div>
+            <div class="bar-val">$2.25B</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem; font-size:0.68rem; color:var(--muted); font-family:var(--mono);">
+          Sources: QXO IR press releases, SEC Form 8-K and Form 424B5 filings. TopBuild pending close.
+        </div>
+      </div>
+
+      <div class="s-3"></div>
+
+      <div class="callout fade-up" data-delay="2">
+        <strong>"Over the past 11 months, we've built QXO into a market leader through more than $13 billion of acquisitions."</strong>
+        <span class="callout-cite">Brad Jacobs, QXO Chairman &amp; CEO &mdash; QXO Press Release, April 21, 2026 &middot; <a class="source-link" href="https://investors.qxo.com/news/news-details/2026/QXO-to-Acquire-TopBuild-for-17-Billion/default.aspx" target="_blank" rel="noopener">investors.qxo.com</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="s-8"></div>
+<hr class="rule" />
+<div class="s-8"></div>
+
+<!-- NAV FEATURE GRID -->
+<div class="page-wrap">
+  <div class="section-label">Explore</div>
+  <h2 class="section-title mb-3">Five Lenses on the <em>Same Machine</em></h2>
+  <div class="nav-feature-grid">
+    <a href="pages/jacobs.html" class="nav-feature fade-up" data-delay="0">
+      <div class="nav-feature-num">01 &mdash; Profile</div>
+      <div class="nav-feature-title">Brad Jacobs</div>
+      <div class="nav-feature-desc">Career biography, company chronology, and the analytical framework Jacobs applies to every new venture. From Amerex Oil in 1979 to QXO in 2024.</div>
+      <span class="nav-feature-arrow">&#8594;</span>
+    </a>
+    <a href="pages/rollup.html" class="nav-feature fade-up" data-delay="1">
+      <div class="nav-feature-num">02 &mdash; Strategy</div>
+      <div class="nav-feature-title">The Roll-Up Playbook</div>
+      <div class="nav-feature-desc">Analyst-grade examination of how pure-play consolidation creates shareholder value. Multiple expansion, operating leverage, platform economics.</div>
+      <span class="nav-feature-arrow">&#8594;</span>
+    </a>
+    <a href="pages/timeline.html" class="nav-feature fade-up" data-delay="2">
+      <div class="nav-feature-num">03 &mdash; Corporate Actions</div>
+      <div class="nav-feature-title">QXO Acquisition Timeline</div>
+      <div class="nav-feature-desc">Complete deal-by-deal history of QXO from launch through TopBuild, including offer structures, consideration types, premia, and SEC filing references.</div>
+      <span class="nav-feature-arrow">&#8594;</span>
+    </a>
+    <a href="pages/dashboard.html" class="nav-feature fade-up" data-delay="3">
+      <div class="nav-feature-num">04 &mdash; Markets</div>
+      <div class="nav-feature-title">Live Stock Dashboard</div>
+      <div class="nav-feature-desc">Real-time prices for every publicly traded company in the Jacobs portfolio: QXO, XPO, GXO, RXO, and United Rentals.</div>
+      <span class="nav-feature-arrow">&#8594;</span>
+    </a>
+    <a href="pages/about.html" class="nav-feature fade-up" data-delay="4">
+      <div class="nav-feature-num">05 &mdash; About</div>
+      <div class="nav-feature-title">Sources &amp; Methodology</div>
+      <div class="nav-feature-desc">Primary source citations, SEC EDGAR filing references, editorial standards, and author disclosure. All factual claims traceable to public filings.</div>
+      <span class="nav-feature-arrow">&#8594;</span>
+    </a>
+    <div class="nav-feature" style="cursor:default; opacity:0.4;">
+      <div class="nav-feature-num">06 &mdash; Forthcoming</div>
+      <div class="nav-feature-title">Integration Playbook</div>
+      <div class="nav-feature-desc">An examination of how Jacobs operationalizes acquisitions post-close: technology deployment, management retention, procurement leverage.</div>
+    </div>
+  </div>
+</div>
+
+<div class="s-8"></div>
+
+<div id="footer-target"></div>
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
