@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Roll-Up Playbook &mdash; Strategy | QXO Roll-Up Study</title>
+  <meta name="description" content="Analyst-grade examination of how roll-up acquisitions create shareholder value through multiple expansion, operating leverage, and pure-play platform economics." />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    .strategy-nav {
+      position: sticky;
+      top: 64px;
+      background: rgba(11,15,26,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+      z-index: 100;
+      padding: 0 2rem;
+    }
+    .strategy-nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      gap: 2.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .strategy-nav-inner::-webkit-scrollbar { display: none; }
+    .strategy-nav a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 1rem 0;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .strategy-nav a:hover {
+      color: var(--linen);
+      border-bottom-color: rgba(232,160,32,0.4);
+    }
+    .mechanism-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+    .mechanism-cell {
+      background: var(--ink);
+      padding: 2rem;
+    }
+    .mechanism-num {
+      font-family: var(--serif);
+      font-size: 3rem;
+      color: rgba(232,160,32,0.2);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .mechanism-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--linen);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.03em;
+    }
+    .mechanism-body {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .multiple-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .multiple-row {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .multiple-row:last-child { border-bottom: none; }
+    .multiple-label { font-size: 0.82rem; color: var(--linen); }
+    .multiple-bar-track {
+      height: 28px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .multiple-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      padding-left: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--ink);
+      transform-origin: left;
+      animation: barGrow 1.2s var(--ease-out) forwards;
+      transform: scaleX(0);
+    }
+    .multiple-val {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--amber);
+      white-space: nowrap;
+    }
+    .step-list {
+      counter-reset: steps;
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      align-items: start;
+    }
+    .step-item:last-child { border-bottom: none; }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(232,160,32,0.3);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+      flex-shrink: 0;
+    }
+    .step-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--linen);
+      margin-bottom: 0.4rem;
+    }
+    .step-body {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .industry-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .industry-col { background: var(--ink); padding: 2rem; }
+    .industry-col-header {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .industry-col-header.positive { color: var(--amber); }
+    .industry-attribute {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+    }
+    .industry-attribute:last-child { border-bottom: none; }
+    .industry-attr-label { color: var(--muted); }
+    .industry-attr-val { color: var(--linen); font-weight: 500; font-family: var(--mono); font-size: 0.78rem; }
+    .industry-attr-val.positive { color: var(--amber); }
+    @media (max-width: 900px) {
+      .mechanism-grid { grid-template-columns: 1fr; }
+      .industry-compare { grid-template-columns: 1fr; }
+      .multiple-row { grid-template-columns: 140px 1fr auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="nav-target"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="page-hero-inner">
+    <div class="section-label">02 &mdash; Strategy</div>
+    <h1 class="section-title">The Roll-Up <em>Playbook</em></h1>
+    <p style="font-size:1rem; color:var(--muted); max-width:600px; line-height:1.7;">
+      How pure-play acquisitions in fragmented industries create durable shareholder value. The mechanics of multiple expansion, operating leverage, and platform economics, applied to QXO.
+    </p>
+  </div>
+</div>
+
+<nav class="strategy-nav">
+  <div class="strategy-nav-inner">
+    <a href="#definition">Definition</a>
+    <a href="#mechanics">Value Creation Mechanics</a>
+    <a href="#multiples">Multiple Expansion</a>
+    <a href="#jacobs-model">The Jacobs Model</a>
+    <a href="#industry-selection">Industry Selection</a>
+    <a href="#execution">Execution Framework</a>
+  </div>
+</nav>
+
+<div class="s-8"></div>
+
+<!-- DEFINITION -->
+<div id="definition" class="page-wrap">
+  <div class="section-label">What It Is</div>
+  <h2 class="section-title">Defining the <em>Roll-Up</em></h2>
+  <div class="s-3"></div>
+  <div class="grid-2" style="gap:5rem; align-items:start;">
+    <div class="prose fade-up">
+      <p>
+        A roll-up acquisition strategy involves the systematic purchase of multiple companies in the same or adjacent industries, combining them under a single platform to achieve scale, operational efficiency, and market positioning unavailable to any individual operator. The strategy is distinct from conglomerate diversification in a critical way: the acquirer deliberately pursues <strong>pure-play concentration</strong> rather than portfolio diversification. Every acquisition deepens the position in a single market rather than spreading risk across multiple markets.
+      </p>
+      <p>
+        The academic literature on roll-ups identifies two primary mechanisms of value creation: <strong>operational synergies</strong> and <strong>multiple expansion</strong>. In practice, the most powerful roll-up platforms capture both simultaneously. The acquirer buys fragmented operators at single-asset valuation multiples, combines them into a platform valued at a much higher multiple, and then engineers margin expansion by extracting operating leverage from the enlarged cost base.
+      </p>
+      <p>
+        The strategy demands specific preconditions. The target industry must be genuinely fragmented, meaning no single operator holds dominant market share and the barriers to consolidation are low enough to permit serial acquisitions at reasonable prices. It must be large enough in total addressable market to absorb significant capital deployment without saturating the opportunity. And it must contain identifiable operational inefficiencies that scale can plausibly address.
+      </p>
+    </div>
+    <div class="fade-up" data-delay="1">
+      <div class="callout">
+        <strong>The core arbitrage:</strong> Private market operators in fragmented industries typically sell at 5x to 7x EBITDA. The publicly traded consolidated platform they are absorbed into trades at 12x to 18x EBITDA. Each acquisition at below-platform multiples is immediately value-accretive to the acquiring entity's shareholders, before any operational improvement is considered.
+      </div>
+      <div class="s-3"></div>
+      <div class="chart-container">
+        <div class="chart-title">Typical EBITDA Multiple Arbitrage &mdash; Building Products Distribution</div>
+        <div class="multiple-chart">
+          <div class="multiple-row">
+            <div class="multiple-label">Small regional operator</div>
+            <div class="multiple-bar-track">
+              <div class="multiple-bar-fill" style="width:28%; background: rgba(136,153,170,0.4); animation-delay:0.1s;">5-7x</div>
+            </div>
+            <div class="multiple-val">~5&ndash;7x</div>
+          </div>
+          <div class="multiple-row">
+            <div class="multiple-label">Mid-size platform</div>
+            <div class="multiple-bar-track">
+              <div class="multiple-bar-fill" style="width:52%; background: rgba(232,160,32,0.5); animation-delay:0.2s;">9-12x</div>
+            </div>
+            <div class="multiple-val">~9&ndash;12x</div>
+          </div>
+          <div class="multiple-row">
+            <div class="multiple-label">QXO (post-Beacon)</div>
+            <div class="multiple-bar-track">
+              <div class="multiple-bar-fill" style="width:75%; background: linear-gradient(90deg, var(--amber), var(--amber-lt)); animation-delay:0.3s;">12-16x</div>
+            </div>
+            <div class="multiple-val">~12&ndash;16x</div>
+          </div>
+        </div>
+        <div style="margin-top:1rem; font-size:0.65rem; color:var(--muted); font-family:var(--mono);">Illustrative ranges based on sector transaction precedents. Beacon acquired at 14.9x 2025 EBITDA (per QXO press release, investors.qxo.com). Private operator multiples per industry convention.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="s-8"></div>
+<hr class="rule" />
+<div class="s-8"></div>
+
+<!-- VALUE CREATION MECHANICS -->
+<div id="mechanics" class="page-wrap">
+  <div class="section-label">How Value Is Created</div>
+  <h2 class="section-title">Three <em>Compounding</em> Forces</h2>
+  <div class="mechanism-grid">
+    <div class="mechanism-cell fade-up" data-delay="0">
+      <div class="mechanism-num">01</div>
+      <div class="mechanism-title">Multiple Expansion</div>
+      <div class="mechanism-body">
+        Individual operators in fragmented markets trade at low acquisition multiples because they lack scale, management depth, and institutional sponsorship. When absorbed into a publicly traded platform with professional management and access to capital markets, the same cash flows are re-rated at a significantly higher valuation multiple. The arithmetic is direct: buy at 6x EBITDA, trade at 14x EBITDA, and each dollar of acquired EBITDA creates $8 in enterprise value before any operational improvement.
+      </div>
+    </div>
+    <div class="mechanism-cell fade-up" data-delay="1">
+      <div class="mechanism-num">02</div>
+      <div class="mechanism-title">Operating Leverage</div>
+      <div class="mechanism-body">
+        Fixed costs spread across a larger revenue base drive margin expansion. Scale enables procurement leverage: larger purchasing volumes extract better vendor pricing and terms. Shared services eliminate duplicative administrative overhead across acquired units. Technology investment that would be cost-prohibitive for a small operator becomes economically rational when amortized across a national platform. Each incremental acquisition improves the unit economics of the entire combined business.
+      </div>
+    </div>
+    <div class="mechanism-cell fade-up" data-delay="2">
+      <div class="mechanism-num">03</div>
+      <div class="mechanism-title">Revenue Synergies</div>
+      <div class="mechanism-body">
+        Geographic reach allows large customers to be served consistently across project locations. Category expansion through complementary acquisitions enables cross-selling into an existing customer base. National contracts unavailable to regional operators become accessible once a platform reaches sufficient geographic density. QXO explicitly cites cross-selling of Kodiak's lumber, windows, and doors into Beacon's roofing and waterproofing contractor base as a near-term revenue opportunity, alongside new access to large homebuilders requiring multi-site supply consistency.
+      </div>
+    </div>
+    <div class="mechanism-cell fade-up" data-delay="3">
+      <div class="mechanism-num">04</div>
+      <div class="mechanism-title">Capital Markets Access</div>
+      <div class="mechanism-body">
+        Publicly traded platforms access equity and debt capital at a cost unavailable to private operators. QXO raised approximately $5 billion in equity before completing a single acquisition. This pre-funded war chest eliminates the financing uncertainty that slows deal execution and allows the acquirer to move quickly, price competitively, and avoid financing contingencies that reduce deal certainty from the seller's perspective. The ability to offer stock consideration also widens the universe of sellers.
+      </div>
+    </div>
+    <div class="mechanism-cell fade-up" data-delay="4">
+      <div class="mechanism-num">05</div>
+      <div class="mechanism-title">Technology as Differentiator</div>
+      <div class="mechanism-body">
+        Building products distribution has historically operated on thin technology infrastructure. Digital ordering, AI-powered inventory optimization, and real-time pricing visibility are standard in mature distribution verticals but largely absent from this sector. A well-capitalized platform can deploy technology investment that increases gross margin per transaction, reduces inventory carrying costs, and improves sales force productivity. QXO explicitly frames technology as a core component of its margin expansion thesis, having appointed a Chief AI Officer and partnering with Roofr for digital ordering.
+      </div>
+    </div>
+    <div class="mechanism-cell fade-up" data-delay="5">
+      <div class="mechanism-num">06</div>
+      <div class="mechanism-title">Execution Velocity</div>
+      <div class="mechanism-body">
+        The roll-up advantage compounds with speed. An acquirer that closes multiple transactions per year builds a larger platform faster, which in turn makes subsequent acquisitions more accretive because the fixed-cost base is already spread across more revenue. Jacobs committed over $13 billion to acquisitions within eleven months of operational control of QXO, a pace that reflects deliberate prioritization of speed of deployment over caution. Each closed transaction adds procurement leverage, customer reach, and management capacity for the next.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="s-8"></div>
+<hr class="rule" />
+<div class="s-8"></div>
+
+<!-- MULTIPLE EXPANSION DEEP DIVE -->
+<div id="multiples" class="page-wrap">
+  <div class="section-label">The Arithmetic</div>
+  <h2 class="section-title">Multiple Expansion: <em>How the Math Works</em></h2>
+  <div class="s-3"></div>
+  <div class="grid-2" style="gap:5rem; align-items:start;">
+    <div class="prose fade-up">
+      <h3>The <em>Accretion Equation</em></h3>
+      <p>
+        Consider a simplified illustration. A regional building products distributor generates $30 million in EBITDA and is acquired at a private market multiple of 6x, implying a purchase price of $180 million. The acquiring public company trades at 14x EBITDA. At the moment of closing, the acquired EBITDA of $30 million is worth $420 million to the acquirer's shareholders at the platform multiple. The acquirer paid $180 million and received $420 million in intrinsic value, creating $240 million in value before accounting for any synergies or operational improvements.
+      </p>
+      <p>
+        This multiple arbitrage is the mechanical foundation of every roll-up. It works as long as three conditions hold: the acquirer can sustain a higher trading multiple than private market transaction multiples; the acquirer can continue sourcing and executing acquisitions below that trading multiple; and the market continues to credit the acquirer with the platform premium rather than discounting it for integration risk or leverage.
+      </p>
+      <p>
+        Jacobs addresses the third condition through an operating track record, conservative leverage, and transparent disclosure. His history of successful exits at United Waste and United Rentals, and the compounding returns at XPO, provide the market with a framework for assigning platform multiple credibility to QXO at an early stage.
+      </p>
+      <h3>QXO's <em>Actual Multiples</em></h3>
+      <p>
+        The Beacon acquisition was priced at $124.35 per share in cash, representing a total enterprise value of approximately $11 billion. QXO's own press release on the TopBuild announcement states that the Beacon-implied EBITDA multiple, using TopBuild's comparable EBITDA as a reference, reflected the discipline of buying at 14.9x before synergies. The Kodiak acquisition at $2.25 billion for a company generating $2.4 billion in revenue implies a revenue multiple below 1.0x, consistent with private market distribution asset pricing.
+      </p>
+    </div>
+    <div class="fade-up" data-delay="1">
+      <div class="chart-container">
+        <div class="chart-title">TopBuild Acquisition &mdash; Multiple Anatomy</div>
+        <div class="multiple-chart">
+          <div class="multiple-row">
+            <div class="multiple-label">Purchase price</div>
+            <div class="multiple-bar-track">
+              <div class="multiple-bar-fill" style="width:100%; background:rgba(136,153,170,0.35); animation-delay:0.1s;">&nbsp;</div>
+            </div>
+            <div class="multiple-val">~$17B</div>
+          </div>
+          <div class="multiple-row">
+            <div class="multiple-label">Pre-synergy EBITDA mult.</div>
+            <div class="multiple-bar-track">
+              <div class="multiple-bar-fill" style="width:74.5%; background:rgba(232,160,32,0.45); animation-delay:0.2s;">&nbsp;</div>
+            </div>
+            <div class="multiple-val">14.9x</div>
+          </div>
+          <div class="multiple-row">
+            <div class="multiple-label">Post-synergy EBITDA mult.</div>
+            <div class="multiple-bar-track">
+              <div class="multiple-bar-fill" style="width:59%; background: linear-gradient(90deg, var(--amber), var(--amber-lt)); animation-delay:0.3s;">&nbsp;</div>
+            </div>
+            <div class="multiple-val">11.8x</div>
+          </div>
+          <div class="multiple-row">
+            <div class="multiple-label">Targeted synergies by 2030</div>
+            <div class="multiple-bar-track">
+              <div class="multiple-bar-fill" style="width:15%; background:rgba(109,204,138,0.4); animation-delay:0.4s;">&nbsp;</div>
+            </div>
+            <div class="multiple-val">$300M</div>
+          </div>
+        </div>
+        <div style="margin-top:1rem; font-size:0.65rem; color:var(--muted); font-family:var(--mono);">
+          Source: QXO IR, "QXO to Acquire TopBuild for $17 Billion," April 21, 2026. <a class="source-link" href="https://investors.qxo.com/news/news-details/2026/QXO-to-Acquire-TopBuild-for-17-Billion/default.aspx" target="_blank" rel="noopener">investors.qxo.com</a>
+        </div>
+      </div>
+
+      <div class="s-3"></div>
+
+      <div class="callout">
+        <strong>$300 million in targeted synergies from TopBuild by 2030</strong>, comprising revenue synergies from cross-selling an expanded range of integrated solutions, and cost synergies from scaled procurement. At 11.8x EBITDA post-synergy, the effective entry multiple is materially below the 14.9x headline.
+        <span class="callout-cite">Source: QXO IR press release, April 21, 2026 &middot; <a class="source-link" href="https://investors.qxo.com/news/news-details/2026/QXO-to-Acquire-TopBuild-for-17-Billion/default.aspx" target="_blank" rel="noopener">investors.qxo.com</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="s-8"></div>
+<hr class="rule" />
+<div class="s-8"></div>
+
+<!-- JACOBS MODEL -->
+<div id="jacobs-model" class="page-wrap">
+  <div class="section-label">The Framework</div>
+  <h2 class="section-title">The Jacobs <em>Operating Model</em></h2>
+  <div class="s-3"></div>
+  <div class="prose fade-up" style="max-width:100%;">
+    <p>
+      Across four distinct industries, Brad Jacobs has applied a recognizable framework with consistent characteristics. The pattern is not accidental. It is a deliberately engineered repeatable process, and its consistency across dissimilar industries is the strongest evidence that the value creation is driven by method rather than by market conditions or luck.
+    </p>
+  </div>
+  <div class="s-3"></div>
+  <div class="step-list fade-up" data-delay="1">
+    <div class="step-item">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">Capital Before Acquisitions</div>
+        <div class="step-body">Jacobs consistently raises institutional capital before identifying specific acquisition targets. This inverts the conventional private equity model where capital is committed to a specific investment. Pre-funding eliminates financing contingencies from deal terms, accelerates closing timelines, and allows the acquirer to approach sellers from a position of unconditional financial strength. QXO raised approximately $5 billion before making its first acquisition offer.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">Industry Selection Criteria</div>
+        <div class="step-body">Target industries share specific attributes: large total addressable market (typically $200 billion or more), extreme fragmentation with no dominant operator, low technology penetration creating an identifiable improvement opportunity, and stable underlying demand drivers. Building products distribution satisfies all four. Solid waste, equipment rental, and logistics all satisfied the same criteria at the time Jacobs entered.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">Platform Acquisition First</div>
+        <div class="step-body">The initial transaction establishes the operational platform and management infrastructure. Jacobs invests significant due diligence and premium in the first deal because it defines the foundation for all subsequent acquisitions. Beacon Roofing Supply, at $11 billion, was not a bargain acquisition. It was a premium paid for a national platform with 600 branches, established vendor relationships, and operational management that would run QXO Building Products going forward.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-title">Sequential Tuck-Ins at Favorable Multiples</div>
+        <div class="step-body">Following the platform acquisition, subsequent transactions target smaller, complementary operators at multiples well below the platform's trading multiple. Kodiak Building Partners at $2.25 billion for $2.4 billion in revenue exemplifies this. The combination of sub-1.0x revenue multiple entry and cross-selling synergies to the Beacon base makes the transaction accretive to earnings in the first full year, as QXO stated at announcement.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">05</div>
+      <div>
+        <div class="step-title">Technology as a Margin Driver, Not a Product</div>
+        <div class="step-body">Unlike technology companies that sell software, Jacobs uses technology to reduce the cost of operating his distribution and logistics businesses. AI-powered inventory management reduces carrying costs. Digital ordering reduces transaction friction and improves fill rates. Real-time pricing visibility reduces the margin leakage from manual negotiation. The technology investment is justified by distribution economics, not software revenue, making it more defensible and harder to replicate without the underlying scale.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">06</div>
+      <div>
+        <div class="step-title">Spin-Offs as Value Realization Events</div>
+        <div class="step-body">When a platform matures, Jacobs has repeatedly created value by spinning off distinct business segments into focused pure-play vehicles. GXO and RXO were both carved out of XPO with combined spin-off values exceeding $12 billion. Each spin-off creates a re-rating event as the market assigns dedicated management focus and pure-play multiples to each separated business. The sum of the parts exceeds the conglomerate whole, and the process recycles capital and management attention into the next venture.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="s-8"></div>
+<hr class="rule" />
+<div class="s-8"></div>
+
+<!-- INDUSTRY SELECTION -->
+<div id="industry-selection" class="page-wrap">
+  <div class="section-label">Target Analysis</div>
+  <h2 class="section-title">Why <em>Building Products?</em></h2>
+  <div class="s-3"></div>
+  <div class="industry-compare fade-up">
+    <div class="industry-col">
+      <div class="industry-col-header">Building Products Distribution &mdash; Fragmentation Indicators</div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Total Addressable Market</span>
+        <span class="industry-attr-val positive">~$800B (N. America)</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Number of operators (N. America + Europe)</span>
+        <span class="industry-attr-val positive">~20,000</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">5-year revenue CAGR (industry)</span>
+        <span class="industry-attr-val positive">~7%</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">U.S. housing supply shortfall</span>
+        <span class="industry-attr-val positive">~3M units</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Technology penetration (B2B e-commerce)</span>
+        <span class="industry-attr-val positive">Low</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Largest existing competitor market share</span>
+        <span class="industry-attr-val positive">Low single digits</span>
+      </div>
+    </div>
+    <div class="industry-col">
+      <div class="industry-col-header positive">QXO Strategic Positioning (Post-TopBuild, pending close)</div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Combined company revenue (indicative)</span>
+        <span class="industry-attr-val">$18B+</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Branch / location count</span>
+        <span class="industry-attr-val">1,150+</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Employees (combined)</span>
+        <span class="industry-attr-val">~28,000</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Revenue target (10-year)</span>
+        <span class="industry-attr-val">$50B</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Combined addressable market (post-TopBuild)</span>
+        <span class="industry-attr-val">$300B+</span>
+      </div>
+      <div class="industry-attribute">
+        <span class="industry-attr-label">Industry rank (post-TopBuild)</span>
+        <span class="industry-attr-val">#2 publicly traded distributor, N. America</span>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:1rem; font-size:0.65rem; color:var(--muted); font-family:var(--mono);">
+    Sources: QXO IR press releases for transaction-specific data. Industry TAM per QXO company materials at qxo.com. Post-TopBuild figures subject to transaction close conditions. TopBuild combination pending shareholder approval and regulatory clearance as of April 2026.
+  </div>
+</div>
+
+<div class="s-8"></div>
+
+<div id="footer-target"></div>
+<script src="../assets/js/nav.js"></script>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

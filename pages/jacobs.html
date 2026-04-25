@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brad Jacobs &mdash; Profile | QXO Roll-Up Study</title>
+  <meta name="description" content="Profile of Brad Jacobs: founder of eight billion-dollar companies including QXO, XPO, United Rentals, and United Waste. Career biography, company history, and investment philosophy." />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    .books-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .book-card {
+      background: var(--ink-mid);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px;
+      padding: 1.5rem;
+    }
+    .book-title {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      color: var(--linen);
+      margin-bottom: 0.4rem;
+    }
+    .book-year {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--amber);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+    }
+    .book-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .company-card {
+      background: var(--ink-mid);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      padding: 1.75rem;
+      position: relative;
+    }
+    .company-card-ticker {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--amber);
+      margin-bottom: 0.4rem;
+    }
+    .company-card-name {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--linen);
+      margin-bottom: 0.25rem;
+    }
+    .company-card-founded {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .company-card-desc {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .company-card-result {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--amber);
+      padding: 0.4rem 0.75rem;
+      background: rgba(232,160,32,0.08);
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .quote-pull {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      line-height: 1.4;
+      color: var(--linen);
+      padding: 2rem 0;
+      border-top: 2px solid var(--amber);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .quote-attribution {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-top: 1rem;
+      display: block;
+    }
+    .performance-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .performance-table th {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+    }
+    .performance-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--linen);
+      vertical-align: middle;
+    }
+    .performance-table tr:last-child td { border-bottom: none; }
+    .performance-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .perf-highlight { color: var(--amber); font-family: var(--mono); font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<div id="nav-target"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="page-hero-inner">
+    <div class="section-label">01 &mdash; Profile</div>
+    <h1 class="section-title">Brad Jacobs</h1>
+    <p style="font-size:1rem; color:var(--muted); max-width:580px; line-height:1.7;">
+      Chairman and CEO, QXO, Inc. Serial entrepreneur. Approximately 500 M&amp;A transactions completed across eight companies and four industries. Born Providence, Rhode Island, 1956.
+    </p>
+  </div>
+</div>
+
+<div class="s-8"></div>
+
+<!-- PROFILE SECTION -->
+<div class="page-wrap">
+  <div class="profile-grid">
+
+    <!-- LEFT: Photo + Career Timeline -->
+    <div class="profile-img-wrap fade-up">
+      <div class="profile-img-placeholder">
+        <!-- 
+          PHOTO PLACEMENT INSTRUCTIONS:
+          Replace this block with a licensed photo of Brad Jacobs.
+          Suggested sources:
+          - QXO Investor Relations press kit: investors.qxo.com
+          - Jacobs Private Equity: jpe.com
+          - Business Wire press releases often include headshots
+          Save the image as ../assets/images/brad-jacobs.jpg
+          Then replace the div below with:
+          <img src="../assets/images/brad-jacobs.jpg" alt="Brad Jacobs, Chairman and CEO of QXO" />
+        -->
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; padding:2rem; text-align:center;">
+          <div style="width:80px; height:80px; border-radius:50%; border:2px solid rgba(232,160,32,0.3); display:flex; align-items:center; justify-content:center;">
+            <span style="font-family:var(--serif); font-size:1.75rem; color:var(--amber);">BJ</span>
+          </div>
+          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase; line-height:1.8;">
+            Photo placeholder<br>
+            Replace with licensed image<br>
+            from QXO IR or jpe.com<br>
+            <a href="https://investors.qxo.com" target="_blank" rel="noopener" style="color:var(--amber);">investors.qxo.com</a>
+          </div>
+        </div>
+        <div class="profile-img-note" style="position:relative; z-index:3;">
+          <strong style="color:var(--linen);">Brad Jacobs</strong><br>
+          Chairman &amp; CEO, QXO, Inc.
+        </div>
+      </div>
+
+      <div class="s-3"></div>
+
+      <!-- Live stock card for QXO -->
+      <div class="stock-card" data-ticker="QXO">
+        <div class="stock-ticker">QXO</div>
+        <div class="stock-company">QXO, Inc. &mdash; NYSE</div>
+        <div class="stock-price stock-loading">Loading&hellip;</div>
+        <div class="stock-change"></div>
+        <div class="stock-ts"></div>
+      </div>
+
+      <div class="s-3"></div>
+
+      <div class="books-grid">
+        <div class="book-card">
+          <div class="book-title">How to Make a Few Billion Dollars</div>
+          <div class="book-year">2024</div>
+          <div class="book-desc">Jacobs' first book laying out his framework for building multibillion-dollar enterprises through M&amp;A.</div>
+        </div>
+        <div class="book-card">
+          <div class="book-title">How to Make a Few More Billion Dollars</div>
+          <div class="book-year">2025</div>
+          <div class="book-desc">A sequel refining the playbook, with lessons drawn from the XPO and QXO experiences.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Biography + Analysis -->
+    <div>
+      <div class="prose fade-up" data-delay="1">
+
+        <h3>The <em>Career Arc</em></h3>
+        <p>
+          Brad Jacobs was born August 3, 1956, in Providence, Rhode Island. He attended Northfield Mount Hermon School and later studied at Bennington College and Brown University. His career began not in finance or operations, but in commodity trading. In 1979, at the age of 22, he co-founded Amerex Oil Associates, an oil brokerage firm that he and his team built to $4.7 billion in gross contract volume before selling the business in 1983.
+        </p>
+        <p>
+          After a period of independent oil trading in London, Jacobs returned to the United States in 1989 and applied a strategy that would define the next three decades: identify a large, fragmented industry, enter via acquisition, and consolidate aggressively. That first U.S. application was United Waste Systems, Inc.
+        </p>
+
+        <h3>The <em>Consolidation Formula</em></h3>
+        <p>
+          United Waste targeted rural solid waste collection companies. The economics were compelling: small operators serving overlapping routes carried duplicative fixed costs, thin technology, and no access to institutional capital. Jacobs bought these operators sequentially, layered shared services across the combined platform, and drove margin expansion through route density. He took United Waste public in 1992. By the time he sold the company to USA Waste Services in August 1997 for $2.5 billion, the stock had outperformed the S&amp;P 500 by 5.6 times from IPO to sale.
+        </p>
+        <p>
+          The same month he closed that sale, Jacobs co-founded United Rentals. He applied an identical model to the equipment rental industry, building the company into the world's largest equipment rental operator in thirteen months through a combination of acquisitions and organic branch openings. He took United Rentals public on the New York Stock Exchange in December 1997. Today, United Rentals is a Fortune 500 company and has been one of the six best-performing stocks of the past decade in that index.
+        </p>
+
+        <h3>XPO, GXO, and <em>the Logistics Platform</em></h3>
+        <p>
+          In 2011, Jacobs invested approximately $150 million in Express-1 Expedited Solutions, a small freight brokerage company with revenues of $175 million, and became its chairman and CEO. He renamed it XPO Logistics and announced an intention to grow revenue to $5 billion within five years primarily through M&amp;A. He exceeded that target substantially, reaching $15 billion in revenue in just over four years through a series of large acquisitions including the $3.5 billion purchase of Con-way Inc. and the $3.6 billion acquisition of Norbert Dentressangle.
+        </p>
+        <p>
+          Jacobs subsequently led two major spin-offs from XPO: GXO Logistics in August 2021 and RXO in November 2022, creating two independent publicly traded companies in roughly fifteen months. GXO is now the world's largest pure-play contract logistics provider. XPO's stock became a 50-bagger for initial investors, and the company ranked as the seventh-best-performing Fortune 500 stock of the past decade, according to Bloomberg market data.
+        </p>
+
+        <h3>QXO and <em>Building Products</em></h3>
+        <p>
+          In December 2023, Jacobs publicly announced plans to build a dominant platform in building products distribution. In June 2024, QXO was formed through the acquisition of SilverSun Technologies, Inc., a shell company renamed QXO, Inc. and traded on the Nasdaq before transferring to the NYSE. Jacobs raised approximately $5 billion in private placement financing by mid-2024, including a $900 million commitment from his own vehicle, Jacobs Private Equity, and $100 million from Sequoia Heritage and other co-investors, alongside a $3.5 billion private placement closed in July 2024.
+        </p>
+        <p>
+          The stated thesis: the building products distribution industry generates approximately $800 billion in annual North American and European revenues, is served by roughly 20,000 operators, and has historically resisted technology adoption. Jacobs targets $50 billion in annual revenues within a decade through acquisitions and organic growth, representing approximately 6% of the total addressable market.
+        </p>
+      </div>
+
+      <div class="s-4"></div>
+
+      <div class="quote-pull fade-up">
+        "I have founded and led eight companies, all of which became billion-dollar or multi-billion-dollar enterprises. I have completed approximately 500 M&amp;A transactions, raised over $50 billion of debt and equity capital, and created tens of billions of dollars in shareholder value."
+        <span class="quote-attribution">Brad Jacobs &mdash; Jacobs Private Equity, jpe.com (official biography)</span>
+      </div>
+
+      <div class="s-4"></div>
+
+      <div class="section-label">Track Record</div>
+      <h3 class="section-title" style="font-size:1.5rem;">Verified Performance <em>by Company</em></h3>
+      <div class="s-2"></div>
+
+      <div class="chart-container fade-up">
+        <table class="performance-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Founded</th>
+              <th>Industry</th>
+              <th>Outcome</th>
+              <th>Performance vs. S&amp;P 500</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>United Waste Systems</strong></td>
+              <td class="td-muted">1989</td>
+              <td class="td-muted">Solid waste</td>
+              <td class="td-muted">Sold, $2.5B, 1997</td>
+              <td><span class="perf-highlight">5.6x outperformance</span> (IPO to sale)</td>
+            </tr>
+            <tr>
+              <td><strong>United Rentals (URI)</strong></td>
+              <td class="td-muted">1997</td>
+              <td class="td-muted">Equipment rental</td>
+              <td class="td-muted">Still public, NYSE</td>
+              <td><span class="perf-highlight">200-bagger</span> &middot; #6 Fortune 500 stock, last decade</td>
+            </tr>
+            <tr>
+              <td><strong>XPO, Inc. (XPO)</strong></td>
+              <td class="td-muted">2011</td>
+              <td class="td-muted">Freight / logistics</td>
+              <td class="td-muted">Still public, NYSE</td>
+              <td><span class="perf-highlight">50-bagger</span> &middot; #7 Fortune 500 stock, last decade</td>
+            </tr>
+            <tr>
+              <td><strong>GXO Logistics (GXO)</strong></td>
+              <td class="td-muted">2021 spin</td>
+              <td class="td-muted">Contract logistics</td>
+              <td class="td-muted">Still public, NYSE</td>
+              <td class="td-muted">World's largest pure-play contract logistics</td>
+            </tr>
+            <tr>
+              <td><strong>RXO, Inc. (RXO)</strong></td>
+              <td class="td-muted">2022 spin</td>
+              <td class="td-muted">Freight brokerage</td>
+              <td class="td-muted">Still public, NYSE</td>
+              <td class="td-muted">Leading North American brokered transport platform</td>
+            </tr>
+            <tr>
+              <td><strong>QXO, Inc. (QXO)</strong></td>
+              <td class="td-muted">2024</td>
+              <td class="td-muted">Building products</td>
+              <td class="td-muted">Active, NYSE</td>
+              <td class="td-muted">$30B+ in deals announced within 23 months of launch</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:1rem; font-size:0.65rem; color:var(--muted); font-family:var(--mono);">
+          Sources: XPO Board bio (investors.xpo.com); Jacobs Private Equity (jpe.com); Wikipedia (Brad Jacobs); SEC Form 8-K, XPO Logistics, Dec 2011 (SEC EDGAR 0001166003). Performance figures cited from Bloomberg market data per Jacobs Private Equity official biography.
+        </div>
+      </div>
+
+      <div class="s-4"></div>
+
+      <div class="section-label">Career Chronology</div>
+      <h3 class="section-title" style="font-size:1.5rem;"><em>Eight Companies.</em> Four Decades.</h3>
+      <div class="s-2"></div>
+
+      <div class="profile-career-milestones fade-up">
+        <div class="milestone">
+          <div class="milestone-year">1979</div>
+          <div>
+            <div class="milestone-co">Amerex Oil Associates</div>
+            <div class="milestone-desc">Co-founded oil brokerage firm. Built to $4.7B gross contract volume. Sold 1983.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">1984</div>
+          <div>
+            <div class="milestone-co">Hamilton Resources Ltd.</div>
+            <div class="milestone-desc">Founded London-based oil trading company. Grew to approximately $1B in annual crude oil trading volume.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">1989</div>
+          <div>
+            <div class="milestone-co">United Waste Systems</div>
+            <div class="milestone-desc">Founded in Greenwich, CT. Consolidated rural solid waste. IPO 1992. Sold to USA Waste Services for $2.5B in August 1997. Stock outperformed S&amp;P by 5.6x.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">1997</div>
+          <div>
+            <div class="milestone-co">United Rentals, Inc. (URI)</div>
+            <div class="milestone-desc">Co-founded September 1997. IPO on NYSE December 1997. Built into world's largest equipment rental company in 13 months. Now a 200-bagger for early investors.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">2011</div>
+          <div>
+            <div class="milestone-co">XPO Logistics (XPO)</div>
+            <div class="milestone-desc">Invested ~$150M in Express-1. Renamed XPO Logistics. Built into top-10 global logistics provider through 40+ acquisitions. Revenue grew from $175M to $15B+ in four years. 50-bagger for initial investors.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">2021</div>
+          <div>
+            <div class="milestone-co">GXO Logistics, Inc. (GXO)</div>
+            <div class="milestone-desc">$7B spin-off from XPO in August 2021. World's largest pure-play contract logistics provider. Jacobs serves as non-executive chairman.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">2022</div>
+          <div>
+            <div class="milestone-co">RXO, Inc. (RXO)</div>
+            <div class="milestone-desc">$5B spin-off from XPO in November 2022. Leading brokered transportation platform in North America. Jacobs serves as non-executive chairman.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">2024</div>
+          <div>
+            <div class="milestone-co">QXO, Inc. (QXO)</div>
+            <div class="milestone-desc">Founded June 2024 via acquisition of SilverSun Technologies shell. Raised ~$5B in equity pre-acquisition. Targeting $50B revenue in building products distribution. Over $30B in announced acquisitions within 23 months of launch.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="s-8"></div>
+
+<div id="footer-target"></div>
+<script src="../assets/js/nav.js"></script>
+<script src="../assets/js/main.js"></script>
+
+<script>
+// Fix nav links for pages/ subdirectory
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    const href = a.getAttribute('href');
+    if (href && href.startsWith('../')) return;
+    if (href && !href.startsWith('http') && !href.startsWith('#')) {
+      if (!href.startsWith('../')) {
+        a.setAttribute('href', '../' + href);
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

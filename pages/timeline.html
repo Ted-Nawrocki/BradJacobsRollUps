@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QXO Acquisition Timeline | QXO Roll-Up Study</title>
+  <meta name="description" content="Complete deal-by-deal corporate actions history of QXO from founding through the TopBuild announcement, with offer structures, consideration, premia, and SEC filing references." />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <style>
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      background: rgba(232,160,32,0.05);
+      border: 1px solid rgba(232,160,32,0.15);
+      border-radius: 4px;
+      margin-bottom: 2.5rem;
+    }
+    .phase-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      white-space: nowrap;
+    }
+    .phase-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--linen);
+    }
+    .phase-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tl-deal {
+      background: var(--ink-mid);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .tl-deal-header {
+      padding: 1.75rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .tl-deal-name {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      color: var(--linen);
+      margin-bottom: 0.3rem;
+    }
+    .tl-deal-tagline {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tl-deal-amount {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--amber);
+      text-align: right;
+      line-height: 1;
+    }
+    .tl-deal-amount-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 4px;
+    }
+    .tl-deal-body {
+      padding: 1.75rem 2rem;
+    }
+    .tl-deal-body .prose p { font-size: 0.88rem; }
+    .tl-terms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .tl-term-cell {
+      background: rgba(255,255,255,0.01);
+      padding: 1rem 1.25rem;
+    }
+    .tl-term-key {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .tl-term-val {
+      font-size: 0.85rem;
+      color: var(--linen);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .tl-deal-footer {
+      padding: 1rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .filing-link {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--amber);
+      padding: 4px 10px;
+      border: 1px solid rgba(232,160,32,0.3);
+      border-radius: 2px;
+      transition: background 0.2s;
+      text-transform: uppercase;
+    }
+    .filing-link:hover { background: rgba(232,160,32,0.1); }
+    .timeline-year-divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 3rem 0 2rem;
+    }
+    .timeline-year-label {
+      font-family: var(--serif);
+      font-size: 3.5rem;
+      color: rgba(232,160,32,0.15);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .timeline-year-rule {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(232,160,32,0.2), transparent);
+    }
+    .pending-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: #f5c05a;
+      background: rgba(245,192,90,0.1);
+      border: 1px solid rgba(245,192,90,0.3);
+      padding: 4px 10px;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .pending-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #f5c05a;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .capital-timeline {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .cap-event {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      align-items: start;
+    }
+    .cap-event:last-child { border-bottom: none; }
+    .cap-date {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+    }
+    .cap-desc {
+      font-size: 0.85rem;
+      color: var(--linen);
+      line-height: 1.5;
+    }
+    .cap-detail {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      line-height: 1.4;
+    }
+    @media (max-width: 600px) {
+      .tl-deal-header { grid-template-columns: 1fr; }
+      .tl-deal-amount { text-align: left; }
+      .tl-deal-amount-label { text-align: left; }
+      .cap-event { grid-template-columns: 1fr; gap: 0.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="nav-target"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-grid"></div>
+  <div class="page-hero-inner">
+    <div class="section-label">03 &mdash; Corporate Actions</div>
+    <h1 class="section-title">QXO Acquisition <em>Timeline</em></h1>
+    <p style="font-size:1rem; color:var(--muted); max-width:640px; line-height:1.7;">
+      Complete deal-by-deal history from QXO's launch in June 2024 through the TopBuild announcement in April 2026. All terms sourced from SEC EDGAR filings and official QXO investor relations materials.
+    </p>
+  </div>
+</div>
+
+<div class="s-8"></div>
+
+<!-- CAPITAL FORMATION PHASE -->
+<div class="page-wrap">
+
+  <div class="timeline-year-divider">
+    <div class="timeline-year-label">2024</div>
+    <div class="timeline-year-rule"></div>
+  </div>
+
+  <div class="phase-header fade-up">
+    <div>
+      <div class="phase-label">Phase I</div>
+      <div class="phase-title">Formation &amp; Capital Raise</div>
+    </div>
+    <div style="flex:1;">
+      <div class="phase-desc">QXO is formed, approximately $5 billion in equity capital is raised, and the company is positioned for acquisitions in building products distribution. No operating acquisitions are completed in 2024.</div>
+    </div>
+  </div>
+
+  <!-- Capital Timeline -->
+  <div class="chart-container fade-up">
+    <div class="chart-title">2024 Capital Formation Chronology</div>
+    <div class="capital-timeline">
+      <div class="cap-event">
+        <div class="cap-date">Dec 2023</div>
+        <div>
+          <div class="cap-desc">Brad Jacobs publicly announces intention to build a platform in building products distribution.</div>
+          <div class="cap-detail">No formal entity established yet. Industry prospecting initiated approximately one year prior per company sources.</div>
+        </div>
+      </div>
+      <div class="cap-event">
+        <div class="cap-date">Jun 2024</div>
+        <div>
+          <div class="cap-desc">QXO, Inc. formed via acquisition of SilverSun Technologies, Inc., a Nasdaq-listed shell company.</div>
+          <div class="cap-detail">Company renamed QXO, Inc. Initial equity investment of $900M from Jacobs Private Equity; $100M from Sequoia Heritage and co-investors. $1B initial raise. Ticker: QXO (Nasdaq).</div>
+        </div>
+      </div>
+      <div class="cap-event">
+        <div class="cap-date">Jun 13, 2024</div>
+        <div>
+          <div class="cap-desc">$3.5 billion private placement announced.</div>
+          <div class="cap-detail">340.9M shares at $9.14 per share plus 42.0M pre-funded warrants at $9.14. Closed July 19, 2024. Goldman Sachs and Morgan Stanley as joint lead placement agents. Source: <a class="source-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001236275&type=8-K&dateb=&owner=include&count=40" target="_blank" rel="noopener">SEC EDGAR (QXO 8-K)</a></div>
+        </div>
+      </div>
+      <div class="cap-event">
+        <div class="cap-date">Jul 22, 2024</div>
+        <div>
+          <div class="cap-desc">Additional $620 million private placement announced.</div>
+          <div class="cap-detail">67M+ shares at $9.14 per share. Includes $150M investment from Affinity Partners (Jared Kushner). Closes July 25, 2024. Total equity: approximately $5B. No debt. QXO debt-free. Source: QXO press release, July 2024.</div>
+        </div>
+      </div>
+      <div class="cap-event">
+        <div class="cap-date">Jan 7, 2025</div>
+        <div>
+          <div class="cap-desc">QXO transfers listing from Nasdaq to NYSE. Brad Jacobs rings the Opening Bell.</div>
+          <div class="cap-detail">Stock begins NYSE trading January 17, 2025. Ticker retained: QXO. Source: QXO press release, January 2025.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-8"></div>
+
+  <!-- GMS / Failed Bid -->
+  <div class="tl-deal fade-up">
+    <div class="tl-deal-header">
+      <div>
+        <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem;">
+          <span class="deal-pill deal-pill-pending">Did Not Close</span>
+        </div>
+        <div class="tl-deal-name">GMS Inc. (NYSE: GMS)</div>
+        <div class="tl-deal-tagline">Gypsum Management and Supply &mdash; Interior construction products distributor</div>
+      </div>
+      <div>
+        <div class="tl-deal-amount">~$95/share</div>
+        <div class="tl-deal-amount-label">QXO Offer Price</div>
+      </div>
+    </div>
+    <div class="tl-deal-body">
+      <div class="prose">
+        <p>
+          QXO made a bid for GMS Inc. at approximately $95 per share. GMS is a distributor of gypsum wallboard, ceilings, and other interior construction products. The bid represented QXO's initial public acquisition attempt following capital formation. Home Depot countered through its subsidiary SRS Distribution, ultimately acquiring GMS in September 2024 for approximately $5.5 billion (approximately $110 per share). Jacobs declined to increase QXO's offer, stating that the company was unwilling to overpay. The decision to walk away rather than enter a bidding war is consistent with Jacobs' stated capital discipline.
+        </p>
+      </div>
+      <div class="tl-terms-grid">
+        <div class="tl-term-cell">
+          <div class="tl-term-key">QXO Offer Price</div>
+          <div class="tl-term-val">~$95.00 per share</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Winning Bidder</div>
+          <div class="tl-term-val">Home Depot / SRS Distribution</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Winning Price</div>
+          <div class="tl-term-val">~$110/share (~$5.5B)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Closing Month</div>
+          <div class="tl-term-val">September 2024</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Outcome for QXO</div>
+          <div class="tl-term-val">No transaction. Capital preserved.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-deal-footer">
+      <span style="font-size:0.72rem; color:var(--muted); font-family:var(--mono);">Source: The Motley Fool analysis citing Jacobs statements on price discipline &middot; Digital Commerce 360, February 2026</span>
+    </div>
+  </div>
+
+  <!-- YEAR DIVIDER -->
+  <div class="timeline-year-divider">
+    <div class="timeline-year-label">2025</div>
+    <div class="timeline-year-rule"></div>
+  </div>
+
+  <div class="phase-header fade-up">
+    <div>
+      <div class="phase-label">Phase II</div>
+      <div class="phase-title">Platform Acquisition</div>
+    </div>
+    <div style="flex:1;">
+      <div class="phase-desc">QXO completes its anchor acquisition of Beacon Roofing Supply, establishing the operational platform and becoming the largest publicly traded distributor of roofing and waterproofing products in the United States.</div>
+    </div>
+  </div>
+
+  <!-- BEACON -->
+  <div class="tl-deal fade-up">
+    <div class="tl-deal-header">
+      <div>
+        <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-bottom:0.5rem;">
+          <span class="deal-pill deal-pill-cash">All-Cash Tender Offer</span>
+          <span class="deal-pill deal-pill-closed">Closed Apr 29, 2025</span>
+        </div>
+        <div class="tl-deal-name">Beacon Roofing Supply, Inc.</div>
+        <div class="tl-deal-tagline">Now QXO Building Products, Inc. &mdash; Largest publicly traded U.S. roofing &amp; waterproofing distributor at acquisition</div>
+      </div>
+      <div>
+        <div class="tl-deal-amount">$11B</div>
+        <div class="tl-deal-amount-label">Total Enterprise Value</div>
+      </div>
+    </div>
+    <div class="tl-deal-body">
+      <div class="prose">
+        <p>
+          The Beacon acquisition was QXO's anchor transaction and the foundation of its building products platform. Beacon was the largest publicly traded distributor of roofing, waterproofing, and complementary building products in the United States at the time of acquisition, with approximately 600 branches across the U.S. and Canada and 2024 revenues of approximately $9.8 billion.
+        </p>
+        <p>
+          QXO initially commenced a tender offer on January 27, 2025 at $124.25 per share. On March 20, 2025, QXO entered into a formal Agreement and Plan of Merger, and on March 31, 2025, the tender offer was amended to increase the offer price to $124.35 per share. The Merger Agreement was by and among QXO, Beacon, and Queen MergerCo, Inc., a Delaware corporation and wholly owned subsidiary of QXO formed as the merger vehicle. The acquisition closed April 29, 2025. Beacon was renamed QXO Building Products, Inc. following the merger.
+        </p>
+        <p>
+          To finance the acquisition, QXO completed a registered public offering of $2 billion of common stock, with Goldman Sachs, Morgan Stanley, and Wells Fargo as joint lead bookrunning managers (Paul, Weiss, Rifkind, Wharton &amp; Garrison LLP as legal counsel).
+        </p>
+      </div>
+      <div class="tl-terms-grid">
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Offer Price (Final)</div>
+          <div class="tl-term-val">$124.35 per share (cash)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Original Offer Price</div>
+          <div class="tl-term-val">$124.25 per share (Jan 27, 2025)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Total Enterprise Value</div>
+          <div class="tl-term-val">~$11 billion (all-cash)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Structure</div>
+          <div class="tl-term-val">Tender offer + back-end merger (Agreement and Plan of Merger)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Merger Vehicle</div>
+          <div class="tl-term-val">Queen MergerCo, Inc. (QXO wholly owned subsidiary)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Agreement Date</div>
+          <div class="tl-term-val">March 20, 2025</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Tender Offer Amendment</div>
+          <div class="tl-term-val">March 31, 2025 (price increase $124.25 &rarr; $124.35)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Closing Date</div>
+          <div class="tl-term-val">April 29, 2025</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Target Revenue (2024)</div>
+          <div class="tl-term-val">~$9.8 billion</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Branch Count</div>
+          <div class="tl-term-val">~600 (U.S. and Canada)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Post-Merger Name</div>
+          <div class="tl-term-val">QXO Building Products, Inc.</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">QXO Legal Counsel</div>
+          <div class="tl-term-val">Paul, Weiss, Rifkind, Wharton &amp; Garrison LLP</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-deal-footer">
+      <a class="filing-link" href="https://www.sec.gov/Archives/edgar/data/0001236275/000114036125014598/ny20045603x12_424b5.htm" target="_blank" rel="noopener">SEC Form 424B5</a>
+      <a class="filing-link" href="https://www.sec.gov/Archives/edgar/data/0001236275/000110465925051003/tm2515522d1_8k.htm" target="_blank" rel="noopener">SEC Form 8-K (Closing)</a>
+      <a class="filing-link" href="https://investors.qxo.com" target="_blank" rel="noopener">QXO IR</a>
+    </div>
+  </div>
+
+  <!-- POST-BEACON CAPITAL RAISES -->
+  <div class="chart-container fade-up">
+    <div class="chart-title">Post-Beacon Capital Raises &mdash; Fueling the Pipeline</div>
+    <div class="capital-timeline">
+      <div class="cap-event">
+        <div class="cap-date">Jun 2025</div>
+        <div>
+          <div class="cap-desc">$2 billion registered public offering of common stock.</div>
+          <div class="cap-detail">Goldman Sachs, Morgan Stanley, Wells Fargo as joint bookrunners. Proceeds toward general corporate purposes including acquisitions. Source: Paul, Weiss client news, paulweiss.com.</div>
+        </div>
+      </div>
+      <div class="cap-event">
+        <div class="cap-date">Jan 2026</div>
+        <div>
+          <div class="cap-desc">$3.0 billion Series C convertible preferred stock investment agreement (Apollo Global Management led).</div>
+          <div class="cap-detail">Designated to fund qualifying large acquisitions. QXO must fund at least one acquisition by July 15, 2026 (extendable if deal announced but not closed). Source: QXO 10-K per StockTitan, February 27, 2026.</div>
+        </div>
+      </div>
+      <div class="cap-event">
+        <div class="cap-date">Jan 2026</div>
+        <div>
+          <div class="cap-desc">Common equity offering raises $749.4 million in net proceeds.</div>
+          <div class="cap-detail">Source: QXO 10-K per StockTitan, February 27, 2026. Additional co-investors from Apollo and Temasek confirmed in Kodiak press release, February 11, 2026.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YEAR DIVIDER -->
+  <div class="timeline-year-divider">
+    <div class="timeline-year-label">2026</div>
+    <div class="timeline-year-rule"></div>
+  </div>
+
+  <div class="phase-header fade-up">
+    <div>
+      <div class="phase-label">Phase III</div>
+      <div class="phase-title">Platform Expansion</div>
+    </div>
+    <div style="flex:1;">
+      <div class="phase-desc">QXO executes rapid tuck-in acquisitions to expand product categories and geography, while announcing its largest transaction to date with TopBuild Corp.</div>
+    </div>
+  </div>
+
+  <!-- KODIAK -->
+  <div class="tl-deal fade-up">
+    <div class="tl-deal-header">
+      <div>
+        <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-bottom:0.5rem;">
+          <span class="deal-pill deal-pill-cash">Cash</span>
+          <span class="deal-pill deal-pill-stock">+ Stock</span>
+          <span class="deal-pill deal-pill-closed">Closed Apr 1, 2026</span>
+        </div>
+        <div class="tl-deal-name">Kodiak Building Partners</div>
+        <div class="tl-deal-tagline">National distributor of lumber, trusses, windows, doors, construction supplies &mdash; 110 locations across 26 states</div>
+      </div>
+      <div>
+        <div class="tl-deal-amount">$2.25B</div>
+        <div class="tl-deal-amount-label">Total Consideration</div>
+      </div>
+    </div>
+    <div class="tl-deal-body">
+      <div class="prose">
+        <p>
+          Kodiak Building Partners was acquired from Court Square Capital Partners, a New York-based private equity firm. Founded in 2011, Kodiak had grown to 110 locations across 26 states under Court Square's eight-year ownership, generating approximately $2.4 billion in revenue in 2025. The business operates under locally branded names including American Builders Supply (Florida), Simonson Lumber (Minnesota), Zarsky Lumber (Texas), and Shepley Wood Products (Massachusetts), among others.
+        </p>
+        <p>
+          The strategic rationale centered on product category expansion: 16 of Kodiak's top 20 vendors are also Beacon suppliers, providing immediate procurement overlap and cross-selling opportunity. Kodiak's structural products (lumber, trusses, windows, doors) complement Beacon's exterior products (roofing, waterproofing, siding), and together the combined platform can supply large homebuilders across the full exterior project lifecycle. Approximately 40% of Kodiak's 2025 revenues derived from Florida and Texas, markets with housing growth rates consistently above national averages.
+        </p>
+        <p>
+          The transaction closed April 1, 2026. Steve Swinney, Kodiak's co-founder and CEO, now leads QXO's new lumber and building materials (LBM) division. QXO stated at announcement that the transaction was expected to be highly accretive to 2026 earnings.
+        </p>
+      </div>
+      <div class="tl-terms-grid">
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Total Consideration</div>
+          <div class="tl-term-val">~$2.25 billion</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Cash Component</div>
+          <div class="tl-term-val">$2.0 billion</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Stock Component</div>
+          <div class="tl-term-val">13.2 million QXO shares</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">QXO Repurchase Right</div>
+          <div class="tl-term-val">Right to repurchase stock at $40.00/share</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Seller</div>
+          <div class="tl-term-val">Court Square Capital Partners (PE)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Announcement Date</div>
+          <div class="tl-term-val">February 11, 2026</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Closing Date</div>
+          <div class="tl-term-val">April 1, 2026 (confirmed)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Target Revenue (2025)</div>
+          <div class="tl-term-val">~$2.4 billion</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Locations</div>
+          <div class="tl-term-val">110 locations, 26 states, ~5,500 employees</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Key Geographies</div>
+          <div class="tl-term-val">~40% revenue from Florida and Texas (Sun Belt / Mountain)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">QXO Financial Advisors</div>
+          <div class="tl-term-val">Morgan Stanley &amp; Co. LLC; Wells Fargo</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">QXO Legal Counsel</div>
+          <div class="tl-term-val">Paul, Weiss, Rifkind, Wharton &amp; Garrison LLP</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Kodiak Financial Advisors</div>
+          <div class="tl-term-val">RBC Capital Markets; KeyBanc Capital Markets</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Kodiak Legal Counsel</div>
+          <div class="tl-term-val">Dechert LLP</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-deal-footer">
+      <a class="filing-link" href="https://investors.qxo.com/news/news-details/2026/QXO-to-Buy-Kodiak-Building-Partners-for-2-25-Billion/default.aspx" target="_blank" rel="noopener">QXO IR (Announcement)</a>
+      <a class="filing-link" href="https://investors.qxo.com/news/news-details/2026/QXO-Completes-Acquisition-of-Kodiak-Building-Partners/default.aspx" target="_blank" rel="noopener">QXO IR (Closing)</a>
+      <a class="filing-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001236275&type=8-K&dateb=&owner=include&count=40" target="_blank" rel="noopener">SEC EDGAR</a>
+    </div>
+  </div>
+
+  <!-- TOPBUILD -->
+  <div class="tl-deal fade-up">
+    <div class="tl-deal-header">
+      <div>
+        <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-bottom:0.5rem;">
+          <span class="deal-pill deal-pill-cash">Cash</span>
+          <span class="deal-pill deal-pill-stock">+ Stock (Mixed Election)</span>
+          <span class="pending-badge">Pending Close</span>
+        </div>
+        <div class="tl-deal-name">TopBuild Corp. (NYSE: BLD)</div>
+        <div class="tl-deal-tagline">Leading installer and distributor of insulation and related building products &mdash; 450+ locations, U.S. and Canada</div>
+      </div>
+      <div>
+        <div class="tl-deal-amount">$17B</div>
+        <div class="tl-deal-amount-label">Total Enterprise Value</div>
+      </div>
+    </div>
+    <div class="tl-deal-body">
+      <div class="prose">
+        <p>
+          The TopBuild acquisition is QXO's largest transaction to date and the most strategically significant in terms of expanding the platform's addressable market and product coverage. TopBuild is the leading installer and distributor of insulation and related products in the United States, serving residential, commercial, and industrial end markets with products including fiberglass and mineral wool insulation, gutters, fireproofing materials, and mechanical insulation. The company operates more than 450 locations across the U.S. and Canada and generated approximately $6.2 billion in net sales in 2025.
+        </p>
+        <p>
+          Under the terms of the Agreement, TopBuild stockholders may elect to receive either $505 per share in cash or 20.2 shares of QXO common stock per TopBuild share. The election is subject to proration: the total transaction consideration is structured as approximately 45% cash and 55% QXO stock in aggregate. The $505 per share price represents a premium of 19.8% to TopBuild's 60-day volume-weighted average price and a premium of 23.1% to TopBuild's closing price on April 17, 2026 (the trading day prior to announcement).
+        </p>
+        <p>
+          QXO states that upon completion, the combined company will be the second-largest publicly traded building products distributor in North America, with more than $18 billion in combined revenue, more than $2 billion in combined adjusted EBITDA, approximately 28,000 employees, and 1,150 locations. Both companies' boards of directors unanimously approved the transaction. Closing is subject to TopBuild shareholder approval, regulatory clearance, and other customary conditions. A Form S-4 registration statement is expected to be filed with the SEC.
+        </p>
+      </div>
+      <div class="tl-terms-grid">
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Per Share Value</div>
+          <div class="tl-term-val">$505.00 per TopBuild share</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Total Enterprise Value</div>
+          <div class="tl-term-val">~$17 billion</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Cash Election</div>
+          <div class="tl-term-val">$505.00 per share in cash</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Stock Election</div>
+          <div class="tl-term-val">20.2 QXO shares per TopBuild share</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Proration Structure</div>
+          <div class="tl-term-val">~45% cash / ~55% QXO stock (aggregate cap)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Premium to 60-Day VWAP</div>
+          <div class="tl-term-val">19.8%</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Premium to Closing Price (Apr 17)</div>
+          <div class="tl-term-val">23.1%</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">EBITDA Multiple (Pre-Synergy)</div>
+          <div class="tl-term-val">14.9x (2025 adjusted EBITDA)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">EBITDA Multiple (Post-Synergy)</div>
+          <div class="tl-term-val">11.8x (after $300M targeted synergies)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Targeted Synergies</div>
+          <div class="tl-term-val">~$300 million by 2030 (revenue + cost)</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Announcement Date</div>
+          <div class="tl-term-val">April 21, 2026</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Target Revenue (2025)</div>
+          <div class="tl-term-val">~$6.2 billion</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Board Approval</div>
+          <div class="tl-term-val">Both boards unanimous</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Pending Registration</div>
+          <div class="tl-term-val">Form S-4 to be filed with SEC</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Closing Conditions</div>
+          <div class="tl-term-val">TopBuild shareholder vote; regulatory clearance; customary conditions</div>
+        </div>
+        <div class="tl-term-cell">
+          <div class="tl-term-key">Status (as of Apr 25, 2026)</div>
+          <div class="tl-term-val">Pending close. Form S-4 forthcoming.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-deal-footer">
+      <a class="filing-link" href="https://investors.qxo.com/news/news-details/2026/QXO-to-Acquire-TopBuild-for-17-Billion/default.aspx" target="_blank" rel="noopener">QXO IR (Announcement)</a>
+      <a class="filing-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001236275&type=8-K&dateb=&owner=include&count=40" target="_blank" rel="noopener">SEC EDGAR (QXO)</a>
+      <a class="filing-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000879585&type=8-K&dateb=&owner=include&count=40" target="_blank" rel="noopener">SEC EDGAR (TopBuild)</a>
+      <span class="pending-badge" style="margin-left:auto;">Pending Shareholder Vote &amp; Regulatory</span>
+    </div>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <div class="s-4"></div>
+  <div class="section-label">Summary</div>
+  <h2 class="section-title" style="font-size:1.5rem;">All QXO <em>Transactions</em> at a Glance</h2>
+  <div class="s-2"></div>
+  <div class="chart-container fade-up">
+    <table class="deal-table">
+      <thead>
+        <tr>
+          <th>Target</th>
+          <th>Announced</th>
+          <th>Closed</th>
+          <th>Consideration</th>
+          <th>Structure</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>GMS Inc.</strong><td class="td-muted">2024</td><td class="td-muted">N/A</td><td>~$95/share (offer)</td><td>Unsolicited bid</td><td><span class="deal-pill deal-pill-pending">Not Completed</span></td></tr>
+        <tr>
+          <td><strong>Beacon Roofing Supply</strong></td><td class="td-muted">Jan 27 / Mar 20, 2025</td><td class="td-muted">Apr 29, 2025</td><td>$124.35/share (all-cash) &middot; ~$11B</td><td>Tender + merger</td><td><span class="deal-pill deal-pill-closed">Closed</span></td>
+        </tr>
+        <tr>
+          <td><strong>Kodiak Building Partners</strong></td><td class="td-muted">Feb 11, 2026</td><td class="td-muted">Apr 1, 2026</td><td>$2.0B cash + 13.2M shares &middot; ~$2.25B</td><td>Negotiated sale from PE</td><td><span class="deal-pill deal-pill-closed">Closed</span></td>
+        </tr>
+        <tr>
+          <td><strong>TopBuild Corp.</strong></td><td class="td-muted">Apr 21, 2026</td><td class="td-muted">Pending</td><td>$505/share cash or 20.2x QXO shares &middot; ~$17B</td><td>Mixed election; ~45% cash / 55% stock</td><td><span class="pending-badge">Pending</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:1rem; font-size:0.65rem; color:var(--muted); font-family:var(--mono);">
+      Sources: QXO investor relations (investors.qxo.com); SEC EDGAR filings (Forms 8-K, 424B5, S-4 forthcoming). All figures are as reported in official press releases and SEC filings. TopBuild transaction subject to closing conditions and may not close on disclosed terms.
+    </div>
+  </div>
+
+</div>
+
+<div class="s-8"></div>
+
+<div id="footer-target"></div>
+<script src="../assets/js/nav.js"></script>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
