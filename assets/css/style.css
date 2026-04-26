@@ -823,6 +823,13 @@ footer {
   .nav-links { display: flex !important; }
 }
 
+/* Below 900px: hamburger left, logo right */
+@media (max-width: 900px) {
+  .nav-hamburger { order: -1; }
+  .nav-logo { order: 0; margin-left: auto; margin-right: auto; }
+  .nav-links { order: 1; }
+}
+
 /* ── Tablet (≤900px) ─────────────────────────────────────── */
 @media (max-width: 900px) {
   .profile-grid { grid-template-columns: 1fr; }
