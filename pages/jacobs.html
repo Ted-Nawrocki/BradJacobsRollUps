@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <meta name="theme-color" content="#0b0f1a" />
   <title>Brad Jacobs &mdash; Profile | QXO Roll-Up Study</title>
   <meta name="description" content="Profile of Brad Jacobs: founder of eight billion-dollar companies including QXO, XPO, United Rentals, and United Waste. Career biography, company history, and investment philosophy." />
   <link rel="stylesheet" href="../assets/css/style.css" />
@@ -119,6 +120,19 @@
     .performance-table tr:last-child td { border-bottom: none; }
     .performance-table tr:hover td { background: rgba(255,255,255,0.02); }
     .perf-highlight { color: var(--amber); font-family: var(--mono); font-weight: 500; }
+  @media (max-width: 768px) {
+    .profile-img-wrap { max-width: 260px !important; margin: 0 0 2rem 0 !important; }
+    .profile-img-placeholder { aspect-ratio: 3/4; }
+    .profile-img-placeholder img { border-radius: 4px; }
+    .profile-grid { gap: 2rem !important; }
+    .books-grid { grid-template-columns: 1fr !important; }
+    .prose { max-width: 100% !important; overflow-x: hidden; }
+    .performance-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; display: block; }
+    .performance-table { min-width: 500px; }
+    .milestone { grid-template-columns: 55px 1fr !important; gap: 0.75rem !important; }
+    .milestone-co { font-size: 0.85rem; }
+    .milestone-desc { font-size: 0.78rem; }
+  }
   </style>
 </head>
 <body>
@@ -157,7 +171,17 @@
           Then replace the div below with:
           <img src="../assets/images/brad-jacobs.jpg" alt="Brad Jacobs, Chairman and CEO of QXO" />
         -->
-        <img src="../assets/images/brad-jacobs.jpg" alt="Brad Jacobs, Chairman and CEO of QXO" />
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; padding:2rem; text-align:center;">
+          <div style="width:80px; height:80px; border-radius:50%; border:2px solid rgba(232,160,32,0.3); display:flex; align-items:center; justify-content:center;">
+            <span style="font-family:var(--serif); font-size:1.75rem; color:var(--amber);">BJ</span>
+          </div>
+          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase; line-height:1.8;">
+            Photo placeholder<br>
+            Replace with licensed image<br>
+            from QXO IR or jpe.com<br>
+            <a href="https://investors.qxo.com" target="_blank" rel="noopener" style="color:var(--amber);">investors.qxo.com</a>
+          </div>
+        </div>
         <div class="profile-img-note" style="position:relative; z-index:3;">
           <strong style="color:var(--linen);">Brad Jacobs</strong><br>
           Chairman &amp; CEO, QXO, Inc.
@@ -242,7 +266,7 @@
       <div class="s-2"></div>
 
       <div class="chart-container fade-up">
-        <table class="performance-table">
+        <div class="performance-table-wrap"><table class="performance-table">
           <thead>
             <tr>
               <th>Company</th>
@@ -296,7 +320,7 @@
               <td class="td-muted">$30B+ in deals announced within 23 months of launch</td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
         <div style="margin-top:1rem; font-size:0.65rem; color:var(--muted); font-family:var(--mono);">
           Sources: XPO Board bio (investors.xpo.com); Jacobs Private Equity (jpe.com); Wikipedia (Brad Jacobs); SEC Form 8-K, XPO Logistics, Dec 2011 (SEC EDGAR 0001166003). Performance figures cited from Bloomberg market data per Jacobs Private Equity official biography.
         </div>
@@ -376,19 +400,5 @@
 <script src="../assets/js/nav.js"></script>
 <script src="../assets/js/main.js"></script>
 
-<script>
-// Fix nav links for pages/ subdirectory
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    const href = a.getAttribute('href');
-    if (href && href.startsWith('../')) return;
-    if (href && !href.startsWith('http') && !href.startsWith('#')) {
-      if (!href.startsWith('../')) {
-        a.setAttribute('href', '../' + href);
-      }
-    }
-  });
-});
-</script>
 </body>
 </html>
