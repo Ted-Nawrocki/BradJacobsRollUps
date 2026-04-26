@@ -763,22 +763,25 @@ footer {
 .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem; }
 
 /* ── Hamburger Nav ───────────────────────────────────────── */
+/* Hamburger always in DOM; hidden above 900px via media query */
 .nav-hamburger {
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   background: none;
   border: none;
+  z-index: 1001;
 }
 .nav-hamburger span {
   display: block;
-  width: 22px;
+  width: 24px;
   height: 2px;
   background: var(--linen);
   border-radius: 2px;
   transition: all 0.25s;
+  pointer-events: none;
 }
 .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-hamburger.open span:nth-child(2) { opacity: 0; }
@@ -800,17 +803,24 @@ footer {
 }
 .nav-mobile-menu.open { display: flex; }
 .nav-mobile-menu a {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--muted);
-  padding: 0.85rem 0;
+  padding: 1rem 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   letter-spacing: 0.04em;
   transition: color 0.2s;
+  display: block;
 }
 .nav-mobile-menu a:last-child { border-bottom: none; }
 .nav-mobile-menu a:hover,
 .nav-mobile-menu a.active { color: var(--linen); }
+
+/* Above 900px: show desktop links, hide hamburger */
+@media (min-width: 901px) {
+  .nav-hamburger { display: none; }
+  .nav-links { display: flex !important; }
+}
 
 /* ── Tablet (≤900px) ─────────────────────────────────────── */
 @media (max-width: 900px) {
@@ -826,9 +836,8 @@ footer {
 
 /* ── Mobile (≤768px) ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  /* Nav */
-  .nav-links { display: none; }
-  .nav-hamburger { display: flex; }
+  /* Nav links hidden on mobile — hamburger takes over */
+  .nav-links { display: none !important; }
 
   /* Global spacing */
   .page-wrap { padding: 0 1rem; }
