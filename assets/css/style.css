@@ -823,10 +823,10 @@ footer {
   .nav-links { display: flex !important; }
 }
 
-/* Below 900px: hamburger left, logo right */
+/* Below 900px: hamburger left of logo */
 @media (max-width: 900px) {
-  .nav-hamburger { order: -1; }
-  .nav-logo { order: 0; margin-left: auto; margin-right: auto; }
+  .nav-hamburger { order: -1; margin-right: 0.75rem; }
+  .nav-logo { order: 0; margin-left: 0; margin-right: auto; }
   .nav-links { order: 1; }
 }
 
