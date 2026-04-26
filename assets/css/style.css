@@ -65,6 +65,7 @@ ul, ol { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
 }
 .nav-logo {
   font-family: var(--mono);
@@ -838,6 +839,8 @@ footer {
 @media (max-width: 768px) {
   /* Nav links hidden on mobile — hamburger takes over */
   .nav-links { display: none !important; }
+  .nav-inner { padding: 0 1rem; }
+  .nav-logo { flex: 1; text-align: center; }
 
   /* Global spacing */
   .page-wrap { padding: 0 1rem; }
@@ -882,7 +885,7 @@ footer {
   .stock-card { padding: 1.25rem; }
 
   /* Profile */
-  .profile-img-wrap { max-width: 280px; margin: 0 auto; }
+  .profile-img-wrap { max-width: 260px; margin: 0; }
   .milestone { grid-template-columns: 60px 1fr; gap: 1rem; }
 
   /* Books */
