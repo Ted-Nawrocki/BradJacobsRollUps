@@ -824,8 +824,8 @@ footer {
   .footer-attribution { text-align: left; }
 }
 
-/* ── Mobile (≤600px) ─────────────────────────────────────── */
-@media (max-width: 600px) {
+/* ── Mobile (≤768px) ─────────────────────────────────────── */
+@media (max-width: 768px) {
   /* Nav */
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
@@ -873,7 +873,7 @@ footer {
   .stock-card { padding: 1.25rem; }
 
   /* Profile */
-  .profile-img-wrap { max-width: 100%; }
+  .profile-img-wrap { max-width: 280px; margin: 0 auto; }
   .milestone { grid-template-columns: 60px 1fr; gap: 1rem; }
 
   /* Books */
