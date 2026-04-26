@@ -823,12 +823,6 @@ footer {
   .nav-links { display: flex !important; }
 }
 
-/* Prevent horizontal scroll globally on mobile */
-@media (max-width: 900px) {
-  html, body { overflow-x: hidden; max-width: 100%; }
-  .page-wrap { overflow-x: hidden; }
-}
-
 /* Below 900px: hamburger left of logo */
 @media (max-width: 900px) {
   .nav-hamburger { order: -1; margin-right: 0.75rem; }
